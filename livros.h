@@ -1,22 +1,23 @@
-
-typedef struct no
+typedef struct no 
 {
     char titulo[100];
     char editora[50];
     char autor[50];
-    int status; // 0 para ocupado 1 para disponível
-    int cod;
+    int status;
+    int isbn;
     struct no *proximo;
-}livro;
+} livro;
 
-typedef struct list{
+typedef struct list 
+{
     livro *cabeca;
     int tamanho;
-}lista_livro;
+} lista_livro;
+
+// Protótipos das funções para manipulação da lista de livros
+lista_livro* criarLista();
 
 int estaVazia(lista_livro *lista);
-
-lista_livro* criarLista();
 
 int inserirFinal(lista_livro *lista, char titulo[100], char editora[50], char autor[50]);
 
@@ -26,9 +27,6 @@ int removerLivro(lista_livro *lista, char titulo[100]);
 
 void imprimirLivroInfo(lista_livro *lista, char titulo[100]);
 
-int buscarCod(lista_livro *lista, char titulo[100]);
+int buscarISBN(lista_livro *lista, char titulo[100]);
 
 void imprimirListaInfo(lista_livro *lista);
-
-
-
