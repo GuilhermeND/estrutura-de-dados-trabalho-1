@@ -5,7 +5,7 @@
 
 // Funções para manipulação da lista circular (fila de espera)
 // Função para criar uma lista circular
-filaUsuarios* criarListaFila() {
+filaUsuarios* criarListaFilaUsuarios() {
     filaUsuarios *f = (filaUsuarios*) malloc(sizeof(filaUsuarios)); // Aloca memória para a lista
 
     if (f!= NULL) { // Verifica se a alocação teve sucesso

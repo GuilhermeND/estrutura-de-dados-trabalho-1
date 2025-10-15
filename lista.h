@@ -17,7 +17,7 @@ typedef struct _lista_fila_circular
 } filaUsuarios;
 
 // Protótipos das funções para manipulação da lista circular (fila de espera)
-filaUsuarios* criarListaFila();
+filaUsuarios* criarListaFilaUsuarios();
 
 int estaVaziaFila(filaUsuarios *fila);
 

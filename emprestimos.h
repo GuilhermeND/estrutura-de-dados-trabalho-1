@@ -16,6 +16,23 @@ typedef struct _listaFilas
     int tamanho;
 } listaFilas;
 
+//cria a lista controladora de filas (1 por programa)
+listaFilas *criarListaFilas();
+
+//adiciona uma fila para a lista controladora
+
+int adicionarListaFilas();
+
+//remove uma fila da lista controladora
+
+int removerListaFilas();
+
+//deleta a controladora no fim da execucao do programa
+
+int deletarListaFilas();
+
+
+
 
 int veriFila(listaFilas *lista, livro *livrop);
 

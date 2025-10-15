@@ -5,7 +5,7 @@
 
 // Funções para manipulação da lista de livros
 // Função para criar uma lista de livros
-lista_livro* criarLista() {
+lista_livro* criarListaLivro() {
     lista_livro *lista = (lista_livro*) malloc(sizeof(lista_livro)); // Aloca memória para a lista
 
     if (lista != NULL) { // Verifica se a alocação teve sucesso

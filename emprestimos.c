@@ -1,3 +1,5 @@
+//as funcoes ainda estao imcompletas, falta algumas dependencias ainda!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,6 +7,31 @@
 #include "usuarios.h"
 #include "livros.h"
 #include "lista.h"
+
+
+//cria a lista controladora de filas (1 por programa)
+listaFilas *criarListaFilas(){
+    listaFilas *lista = (listaFilas*) malloc(sizeof(listaFilas));
+    if(lista) return lista;
+    else{
+        printf("Erro ao alocar memória da Lista controladora");
+        return NULL;
+    }
+}
+
+//adiciona uma fila para a lista controladora
+
+int adicionarListaFilas();
+
+//remove uma fila da lista controladora
+
+int removerListaFilas();
+
+//deleta a controladora no fim da execucao do programa
+
+int deletarListaFilas();
+
+
 
 //função para verificar se existe a fila para aquele livro
 int veriFila(listaFilas *lista, livro *livrop){
@@ -19,6 +46,8 @@ int veriFila(listaFilas *lista, livro *livrop){
     return NULL;
 }
 
+
+
 //função para colocar em uma fila quando ocorre um emprestimo, lida com casos de livro já emprestado ou nao e se a fila ainda existe ou n
 int colocaFila(int matricula, livro *livrop, listaFilas *lista){
 
@@ -28,7 +57,7 @@ int colocaFila(int matricula, livro *livrop, listaFilas *lista){
         inserirFila(matricula, enderecoFila->fila);
         return 1;
     }else{
-        filaUsuarios *novaFila = criarListaFila();
+        filaUsuarios *novaFila = criarListaFilaUsuarios();
         inserirFila(matricula, novaFila);
         return novaFila->tamanho;
     }

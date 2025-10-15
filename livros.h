@@ -15,7 +15,7 @@ typedef struct list
 } lista_livro;
 
 // Protótipos das funções para manipulação da lista de livros
-lista_livro* criarLista();
+lista_livro* criarListaLivro();
 
 int estaVazia(lista_livro *lista);
 
