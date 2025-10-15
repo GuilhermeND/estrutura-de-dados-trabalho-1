@@ -9,20 +9,20 @@ typedef struct _no
     struct _no *anterior;
 } no;
 
-typedef struct _lista_circular
+typedef struct _lista_fila_circular
 {
     int tamanho;
     no *cabeca;
     no *pe;
-} lista_circular;
+} fila;
 
 // Protótipos das funções para manipulação da lista circular (fila de espera)
-lista_circular* criarListaFila();
+fila* criarListaFila();
 
-int estaVaziaFila(lista_circular *lista);
+int estaVaziaFila(fila *fila);
 
-int inserirFila(lista_circular *lista, int matricula);
+int inserirFila(fila *fila, int matricula);
 
-int removerFila(lista_circular *lista);
+int removerFila(fila *fila);
 
-void imprimirFila(lista_circular *lista);
+void imprimirFila(fila *fila);

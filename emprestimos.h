@@ -6,7 +6,7 @@
 typedef struct queues //talvez criar uma lista dinamica seja melhor
 {
     livro *livro;
-    lista_circular *lista; 
+    fila *fila; 
     struct queues *proximo;
 } fila;
 
