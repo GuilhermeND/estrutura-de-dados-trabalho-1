@@ -37,4 +37,4 @@ int fazerEmprestimo(listaFilas *lista, lista_livro *listaLivro, int isbnLivro, i
 
 //se livro está emprestado chama colocarFila
 
-int devolverLivro(lista_livro *lista ,int isbnLivro, int matricula);
+int devolverLivro(listaFilas *lista, lista_livro *listaLivro ,int isbnLivro, int matricula);

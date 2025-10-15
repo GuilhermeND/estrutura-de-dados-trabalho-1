@@ -6,8 +6,7 @@
 #include "livros.h"
 #include "lista.h"
 
-// Função para colocar um usuário na fila de espera de um livro
-
+//função para verificar se existe a fila para aquele livro
 int veriFila(listaFilas *lista, livro *livrop){
     int i;
     fila *localNo = lista->filaCabeca;
@@ -20,6 +19,7 @@ int veriFila(listaFilas *lista, livro *livrop){
     return NULL;
 }
 
+//função para colocar em uma fila quando ocorre um emprestimo, lida com casos de livro já emprestado ou nao e se a fila ainda existe ou n
 int colocaFila(int matricula, livro *livrop, listaFilas *lista){
 
     if(livrop->status == 1) return 0;
@@ -33,6 +33,8 @@ int colocaFila(int matricula, livro *livrop, listaFilas *lista){
         return novaFila->tamanho;
     }
 }
+
+//funcao que efetiviamente faz o emprestimo
 
 int fazerEmprestimo(listaFilas *lista, lista_livro *listaLivro, int isbnLivro, int matricula){
     int i;
@@ -50,7 +52,33 @@ int fazerEmprestimo(listaFilas *lista, lista_livro *listaLivro, int isbnLivro, i
     return NULL;
 }
 
+//funcao de devolucao de livro, lida com o caso de precisar deletar a lista se so existe uma pessoa esperando e caso ha mais de uma pessoa na fila.
 
-devolverLivro(lista_livro *lista ,int isbnLivro, int matricula){
-    
+int devolverLivro(listaFilas *lista, lista_livro *listaLivro ,int isbnLivro, int matricula){
+    int i;
+    fila *filaEndereco;
+    filaUsuarios* fila;
+    livro *localNo = listaLivro->cabeca;
+    fila_no *temp;
+    for(i=0; i<listaLivro->tamanho; i++){
+        if(localNo->isbn == isbnLivro){
+            filaEndereco = veriFila(lista, localNo);
+            if(filaEndereco){
+                fila = filaEndereco->fila;
+                if(fila->cabeca->matricula != matricula) return 0;
+            if(fila->cabeca->proximo!=NULL){
+                temp = fila->cabeca;
+                fila->cabeca = temp->proximo;
+                free(temp);
+                return 1;
+            }else{
+                free(fila->cabeca);
+                free(fila);
+                localNo->status = 1;
+                return 2;
+            }
+            }
+        }
+    }
+    return 0;
 }
