@@ -13,7 +13,7 @@ typedef struct list_user
 } lista_usuario;
 
 // Protótipos das funções para manipulação da lista de usuários
-lista_usuario* criarLista();
+lista_usuario* criarListaUsuario();
 
 int estaVazia(lista_usuario *lista);
 

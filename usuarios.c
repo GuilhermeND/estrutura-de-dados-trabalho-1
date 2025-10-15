@@ -5,7 +5,7 @@
 
 // Funções para manipulação da lista de usuários
 // Função para criar uma lista de usuários
-lista_usuario* criarLista() { 
+lista_usuario* criarListaUsuario() { 
     lista_usuario *lista = (lista_usuario*) malloc(sizeof(lista_usuario)); // Aloca memória para a lista
 
     if (lista != NULL) { // Verifica se a alocação teve sucesso

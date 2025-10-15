@@ -4,30 +4,82 @@
 #include "emprestimos.h"
 #include "usuarios.h"
 
-int escolhaLivro(){
+int escolhaLivro(lista_livro *listaLivros){
     int escolha;
-    printf("------------------LIVRO----------------\n");
-    printf("1.Emprestar Livro\n");
-    printf("2.Devolver Livro\n");
-    printf("3.Buscar informacoes do livro por nome\n");
-    printf("4.Imprimir disponibilidade de um livro\n");
-    scanf("%d", &escolha);
-    switch (escolha){
-        case 1:
+    char userIn[100];
+    while(1){
+        printf("------------------LIVRO----------------\n");
+        printf("1.Emprestar Livro\n");
+        printf("2.Devolver Livro\n");
+        printf("3.Imprimir lista de livros\n");
+        printf("4.Buscar informacoes do livro por nome\n");
+        printf("5.Imprimir disponibilidade de um livro\n");
+        printf("6.Voltar\n");
+        scanf("%d", &escolha);
+        switch (escolha){
+            case 1:
 
-            break;
-    
-    default:
-        break;
+                break;
+            case 2:
+
+                break;
+            case 3:
+                imprimirListaInfo(listaLivros);
+                break;
+            case 4:
+
+                break;
+            case 5:
+                printf("Escreva o nome do livro que deseja procurar: ");
+                fgets(userIn, sizeof(userIn), stdin);
+                imprimirLivroInfo(listaLivros, userIn);
+                break;
+            case 6:
+                return 0;
+                break;
+            default:
+                printf("Valor Inválido!");
+                break;
+        }
     }
+    return 1;
 }
 
-int escolhaUsuario(){
+int escolhaUsuario(lista_usuario *listaUsuarios){
     int escolha;
-    printf("--------------USUARIO----------------\n");
-    printf("1.Exibir informacoes de um usuario\n");
-    printf("2.Exibir data(s) de devolucao de um usuario\n");
-    scanf("%d" ,&escolha);
+    int userIn;
+    char userName[100];
+    while(1){
+        printf("--------------USUARIO----------------\n");
+        printf("1.Exibir informacoes de um usuario\n");
+        printf("2.Exibir data(s) de devolucao de um usuario\n");
+        printf("3.Buscar matricula de usuario por nome\n");
+        printf("4.Voltar\n");
+        scanf("%d" ,&escolha);
+
+        switch (escolha){
+            case 1:
+                printf("Escreva a matricula do usuario: ");
+                scanf("%d", &userIn);
+                break;
+            case 2:
+                printf("Escreva a matricula do usuario: ");
+                scanf("%d", &userIn);
+                break;
+            case 3:
+                printf("Escreva o nome do usuario(precisa ser o nome exato):  ");
+                fgets(userName, sizeof(userName), stdin);
+                buscarMatricula(listaUsuarios, userName);
+                break;
+            case 4: 
+                return 0;
+                break;
+            
+            default:
+                printf("Escolha inválida!");
+                break;
+        }
+    }
 }
 
 int escolhaAdmnistrador(){
@@ -48,6 +100,8 @@ int escolhaAdmnistrador(){
     printf("2.Adicionar um livro\n");
     printf("3.Remover um usuario\n");
     printf("4.Remover um livro\n");
+    printf("5.Voltar\n");
+
     scanf("%d", &escolha);
 
     switch (escolha){
@@ -65,6 +119,8 @@ int escolhaAdmnistrador(){
 int main(){
     listaFilas *listraControladora = criarListaFilas();
     lista_livro *listaLivros = criarLista();
+    lista_usuario *listaUsuarios = criarListaUsuario();
+    
     int escolha;
     printf("--------------BIBLIOTECA----------------\n");
     printf("Escolha uma das opções: \n");
@@ -75,10 +131,10 @@ int main(){
     switch (escolha){
 
         case 1:
-            escolhaLivro();
+            escolhaLivro(listaLivros);
             break;
         case 2:
-            escolhaUsuario();
+            escolhaUsuario(listaUsuarios);
             break;
         case 3:
             escolhaAdmnistrador();
