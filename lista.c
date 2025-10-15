@@ -5,25 +5,25 @@
 
 // Funções para manipulação da lista circular (fila de espera)
 // Função para criar uma lista circular
-lista_circular* criarListaFila() {
-    lista_circular *lista = (lista_circular*) malloc(sizeof(lista_circular)); // Aloca memória para a lista
+filaUsuarios* criarListaFila() {
+    filaUsuarios *f = (filaUsuarios*) malloc(sizeof(filaUsuarios)); // Aloca memória para a lista
 
-    if (lista != NULL) { // Verifica se a alocação teve sucesso
-        lista->cabeca = NULL;
-        lista->pe = NULL;
-        lista->tamanho = 0;
+    if (f!= NULL) { // Verifica se a alocação teve sucesso
+        f->cabeca = NULL;
+        f->pe = NULL;
+        f->tamanho = 0;
     }
-    return lista;
+    return f;
 }
 
 // Função para verificar se a fila de espera está vazia
-int estaVaziaFila(lista_circular *lista) {
+int estaVaziaFila(filaUsuarios *lista) {
     return (lista->tamanho == 0); // Retorna 1 se estiver vazia e 0 se não estiver
 }
 
 // Função para inserir um usuário na fila (lista circular) pelo número de matrícula
-int inserirFila(lista_circular *lista, int matricula) {
-    no *novoNo = (no*) malloc(sizeof(no)); // Aloca memória para o novo nó
+int inserirFila(filaUsuarios *lista, int matricula) {
+    fila_no *novoNo = (fila_no*) malloc(sizeof(fila_no)); // Aloca memória para o novo nó
 
     if (novoNo == NULL) { // Verifica se a alocação teve sucesso
         return 0; // Falha na alocação de memória
@@ -50,12 +50,12 @@ int inserirFila(lista_circular *lista, int matricula) {
 }
 
 // Função para remover o usuário no início da fila
-int removerFila(lista_circular *lista) {
+int removerFila(filaUsuarios *lista) {
     if (estaVaziaFila(lista)) {
         return 0; // A lista está vazia, não há nós para remover
     }
 
-    no *noRemovido = lista->cabeca; // Nó a ser removido é a cabeça da lista
+    fila_no *noRemovido = lista->cabeca; // Nó a ser removido é a cabeça da lista
 
     if (lista->tamanho == 1) {
         // Se houver apenas um nó na lista, a lista ficará vazia após a remoção
@@ -74,13 +74,13 @@ int removerFila(lista_circular *lista) {
 }
 
 // Função para imprimir a fila
-void imprimirFila(lista_circular *lista) {
+void imprimirFila(filaUsuarios *lista) {
     if (estaVaziaFila(lista)) {
         printf("A fila está vazia.\n");
         return;
     }
 
-    no *atual = lista->cabeca; // Ponteiro para percorrer a lista
+    fila_no *atual = lista->cabeca; // Ponteiro para percorrer a lista
     printf("Fila: ");
     do {
         printf("%d, ", atual->matricula);

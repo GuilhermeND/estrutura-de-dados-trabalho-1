@@ -6,19 +6,20 @@
 typedef struct queues //talvez criar uma lista dinamica seja melhor
 {
     livro *livro;
-    fila *fila; 
+    filaUsuarios *fila; 
     struct queues *proximo;
 } fila;
 
 typedef struct _listaFilas
 {
-    fila *fila;
+    fila *filaCabeca;
     int tamanho;
 } listaFilas;
 
 
+int veriFila(listaFilas *lista, livro *livrop);
 
-int colocaFila(int matricula, livro *);
+int colocaFila(int matricula, livro *livrop, listaFilas *lista);
 // se o livro estiver disponivel retorna 0
 // se já estiver emprestado verifica se existe fila do livro
 //se sim, chama adicionarLista()
@@ -32,8 +33,8 @@ int colocaFila(int matricula, livro *);
 //chama criarListaFila() e adiciona o usuário com inserirFila()
 //retorna a posição do usuário na fila = tamanho
 
-int fazerEmprestimo(lista_livro *lista ,char nomeLivro[100], int matricula);
+int fazerEmprestimo(listaFilas *lista, lista_livro *listaLivro, int isbnLivro, int matricula);
 
 //se livro está emprestado chama colocarFila
 
-int devolverLivro(lista_livro *lista ,char nomeLivro[100], int matricula);
+int devolverLivro(lista_livro *lista ,int isbnLivro, int matricula);

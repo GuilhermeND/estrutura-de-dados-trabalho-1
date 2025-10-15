@@ -7,22 +7,22 @@ typedef struct _no
     int matricula;
     struct _no *proximo;
     struct _no *anterior;
-} no;
+} fila_no;
 
 typedef struct _lista_fila_circular
 {
     int tamanho;
-    no *cabeca;
-    no *pe;
-} fila;
+    fila_no *cabeca;
+    fila_no *pe;
+} filaUsuarios;
 
 // Protótipos das funções para manipulação da lista circular (fila de espera)
-fila* criarListaFila();
+filaUsuarios* criarListaFila();
 
-int estaVaziaFila(fila *fila);
+int estaVaziaFila(filaUsuarios *fila);
 
-int inserirFila(fila *fila, int matricula);
+int inserirFila(filaUsuarios *fila, int matricula);
 
-int removerFila(fila *fila);
+int removerFila(filaUsuarios *fila);
 
-void imprimirFila(fila *fila);
+void imprimirFila(filaUsuarios *fila);
