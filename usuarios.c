@@ -16,12 +16,12 @@ lista_usuario* criarListaUsuario() {
 }
 
 // Função para verificar se a lista está vazia
-int estaVazia(lista_usuario *lista) {
+int listaUsuarioEstaVazia(lista_usuario *lista) {
     return (lista->tamanho == 0); // Retorna 1 se estiver vazia e 0 se não estiver
 }
 
 // Função para inserir um usuário no final da lista
-int inserirFim(lista_usuario *lista, char nome[50], int matricula, int cargo) {
+int inserirUsuario(lista_usuario *lista, char nome[50], int matricula, int cargo) {
     usuario *novoUsuario = (usuario*) malloc(sizeof(usuario)); // Aloca memória para o novo usuário
 
     if (novoUsuario == NULL) { // Verifica se a alocação teve sucesso
@@ -40,7 +40,7 @@ int inserirFim(lista_usuario *lista, char nome[50], int matricula, int cargo) {
         novoUsuario->data_devolucao[i][0] = '\0';
     }
 
-    if (estaVazia(lista)) {
+    if (listaUsuarioEstaVazia(lista)) {
         lista->cabeca = novoUsuario; // Se a lista estiver vazia, o novo usuário é a cabeça
     } else {
         usuario *atual = lista->cabeca; // Começa a percorrer a lista a partir da cabeça
@@ -55,7 +55,7 @@ int inserirFim(lista_usuario *lista, char nome[50], int matricula, int cargo) {
 
 // Função para buscar um usuário pela matrícula a partir do nome
 int buscarMatricula(lista_usuario *lista, char nome[50]) {
-    if (estaVazia(lista)) {
+    if (listaUsuarioEstaVazia(lista)) {
         return 0; // A lista está vazia, não há usuários para buscar
     }
 
@@ -75,7 +75,7 @@ int buscarMatricula(lista_usuario *lista, char nome[50]) {
 
 // Função para buscar um usuário pela matrícula
 int buscarUsuario(lista_usuario *lista, int matricula) {
-    if (estaVazia(lista)) {
+    if (listaUsuarioEstaVazia(lista)) {
         return 0; // A lista está vazia, não há usuários para buscar
     }
 
@@ -104,7 +104,7 @@ int buscarUsuario(lista_usuario *lista, int matricula) {
 
 // Função para remover um usuário pela matrícula
 int removerUsuario(lista_usuario *lista, int matricula) {
-    if (estaVazia(lista)) {
+    if (listaUsuarioEstaVazia(lista)) {
         return 0; // A lista está vazia, nada para remover
     }
 
@@ -137,7 +137,7 @@ int removerUsuario(lista_usuario *lista, int matricula) {
 
 // Função para imprimir os livros emprestados por um usuário
 void imprimirLivrosEmprestados(lista_usuario *lista, int matricula) {
-    if (estaVazia(lista)) {
+    if (listaUsuarioEstaVazia(lista)) {
         printf("A lista de usuários está vazia.\n");
         return;
     }

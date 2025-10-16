@@ -27,12 +27,15 @@ int escolhaLivro(lista_livro *listaLivros){
                 imprimirListaInfo(listaLivros);
                 break;
             case 4:
+                printf("Escreva o nome do livro que deseja procurar: ");
+                fgets(userIn, sizeof(userIn), stdin);
+                imprimirLivroInfo(listaLivros, userIn);
 
                 break;
             case 5:
                 printf("Escreva o nome do livro que deseja procurar: ");
                 fgets(userIn, sizeof(userIn), stdin);
-                imprimirLivroInfo(listaLivros, userIn);
+                imprimirStatus(listaLivros, userIn);
                 break;
             case 6:
                 return 0;
@@ -52,7 +55,7 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
     while(1){
         printf("--------------USUARIO----------------\n");
         printf("1.Exibir informacoes de um usuario\n");
-        printf("2.Exibir data(s) de devolucao de um usuario\n");
+        printf("2.Exibir livro(s) emprestado(s) de um usuario\n");
         printf("3.Buscar matricula de usuario por nome\n");
         printf("4.Voltar\n");
         scanf("%d" ,&escolha);
@@ -122,32 +125,35 @@ int main(){
     lista_usuario *listaUsuarios = criarListaUsuario();
     
     int escolha;
-    printf("--------------BIBLIOTECA----------------\n");
-    printf("Escolha uma das opções: \n");
-    printf("1.Livros\n");
-    printf("2.Usuarios\n");
-    printf("3.Administrado\n");
-    scanf("%d", &escolha);
-    switch (escolha){
 
-        case 1:
-            escolhaLivro(listaLivros);
-            break;
-        case 2:
-            escolhaUsuario(listaUsuarios);
-            break;
-        case 3:
-            escolhaAdmnistrador();
-            break;
-        default:
-            printf("Escolha inválida!\n");
-            break;
+    while(escolha != 0) {
+        printf("--------------BIBLIOTECA----------------\n");
+        printf("Escolha uma das opções: \n");
+        printf("1.Livros\n");
+        printf("2.Usuarios\n");
+        printf("3.Administrado\n");
+        scanf("%d", &escolha);
+        switch (escolha){
+            case 1:
+                escolhaLivro(listaLivros);
+                break;
+
+            case 2:
+                escolhaUsuario(listaUsuarios);
+                break;
+
+            case 3:
+                escolhaAdmnistrador();
+                break;
+
+            case 0:
+                printf("Encerrando o programa.\n");
+                break;
+            default:
+                printf("Escolha inválida!\n");
+                break;
+        }
     }
-
-
-
-
-
 
     return 0;
 }

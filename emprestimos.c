@@ -69,7 +69,7 @@ int fazerEmprestimo(listaFilas *lista, lista_livro *listaLivro, int isbnLivro, i
     int i;
     livro *localNo = listaLivro->cabeca;
     for(i=0; i<lista->tamanho; i++){
-        if(localNo->isbn == isbnLivro){
+        if(localNo->cod == isbnLivro){
            int veri = colocaFila(matricula, localNo, lista);
             if(!veri){
                 localNo->status = 0;
@@ -90,7 +90,7 @@ int devolverLivro(listaFilas *lista, lista_livro *listaLivro ,int isbnLivro, int
     livro *localNo = listaLivro->cabeca;
     fila_no *temp;
     for(i=0; i<listaLivro->tamanho; i++){
-        if(localNo->isbn == isbnLivro){
+        if(localNo->cod == isbnLivro){
             filaEndereco = veriFila(lista, localNo);
             if(filaEndereco){
                 fila = filaEndereco->fila;
