@@ -132,7 +132,7 @@ livro* buscarLivroPorCodigo(lista_livro *lista, int cod) {
 // Função para imprimir as informações de todos os livros na lista
 void imprimirListaInfo(lista_livro *lista) {
     if (listaLivroEstaVazia(lista)) {
-        printf("A lista de livros está vazia.\n");
+        printf("A lista de livros esta vazia.\n");
         return;
     }
 
@@ -140,11 +140,11 @@ void imprimirListaInfo(lista_livro *lista) {
 
     // Percorre a lista e imprime as informações de cada livro
     while (atual != NULL) {
-        printf("Título: %s\n", atual->titulo);
+        printf("Titulo: %s\n", atual->titulo);
         printf("Editora: %s\n", atual->editora);
         printf("Autor: %s\n", atual->autor);
-        printf("Status: %s\n", (atual->status == 1) ? "Disponível" : "Emprestado");
-        printf("Código: %d\n", atual->cod);
+        printf("Status: %s\n", (atual->status == 1) ? "Disponivel" : "Emprestado");
+        printf("Codigo: %d\n", atual->cod);
         printf("-------------------------\n");
         atual = atual->proximo;
     }

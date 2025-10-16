@@ -6,12 +6,14 @@
 #include "emprestimos.h"
 #include "usuarios.h"
 
-int escolhaLivro(lista_livro *listaLivros){
+int escolhaLivro(listaFilas *listaControladora, lista_livro *listaLivros){
     int escolha_livro;
     char userIn[100];
     int userInCod;
+    int userInMat;
     livro *livroBusca;
     int result;
+    int e;
     while(1){
         printf("------------------LIVRO----------------\n");
         printf("1.Emprestar Livro\n");
@@ -30,10 +32,36 @@ int escolhaLivro(lista_livro *listaLivros){
         }
         switch (escolha_livro){
             case 1:
-
+                printf("Insira o codigo do livro a ser emprestado: ");
+                scanf("%d", &userInCod);
+                while (getchar() != '\n');
+                printf("Insira o codigo da matricula de quem vai emprestar: ");
+                scanf("%d", &userInMat);
+                while (getchar() != '\n');
+                e = fazerEmprestimo(listaControladora, listaLivros, userInCod, userInMat);
+                if(e == -1){
+                    printf("Erro ao emprestar!\n");
+                    continue;
+                }else{
+                    printf("Sucesso ao emprestar e a posição na fila é: %d\n", e);
+                }
                 break;
             case 2:
-
+                printf("Insira o codigo do livro a ser devolvido: ");
+                scanf("%d", &userInCod);
+                while (getchar() != '\n');
+                printf("Insira o codigo da matricula de quem vai devolver: ");
+                scanf("%d", &userInMat);
+                while (getchar() != '\n');
+                e = fazerEmprestimo(listaControladora, listaLivros, userInCod, userInMat);
+                if(e == 0){
+                    printf("Erro ao emprestar!\n");
+                    continue;
+                }else if(e == -1){
+                    printf("Sucesso ao devolver e o livro está sem fila no momento!\n");
+                }else{
+                    printf("Sucesso ao devolver e o tamanho da fila daquele livro é %d\n", e);
+                }
                 break;
             case 3:
                 imprimirListaInfo(listaLivros);
@@ -144,6 +172,9 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
     int matricula;
     int cargo;
     int cod;
+    char titulo[100];
+    char editora[50];
+    char autor[50]; 
     int e; // erro
     printf("--------------ADMNISTRATIVO----------------\n");
     printf("Digite a senha: ");
@@ -210,9 +241,7 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 break;
             
             case 2:
-                char titulo[100];
-                char editora[50];
-                char autor[50]; 
+
                 printf("Escreve o titulo do livro: ");
                 fgets(titulo, sizeof(titulo), stdin);
                 if (!strchr(titulo, '\n')) {

@@ -6,7 +6,7 @@
 #include "usuarios.h"
 
 int main(){
-    listaFilas *listraControladora = criarListaFilas();
+    listaFilas *listaControladora = criarListaFilas();
     lista_livro *listaLivros = criarListaLivro();
     lista_usuario *listaUsuarios = criarListaUsuario();
     
@@ -27,7 +27,7 @@ int main(){
         }
         switch (escolha){
             case 1:
-                escolhaLivro(listaLivros);
+                escolhaLivro(listaControladora, listaLivros);
                 break;
 
             case 2:
@@ -48,4 +48,4 @@ int main(){
         }
     }
     return 0;
-}
+}  

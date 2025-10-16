@@ -89,12 +89,12 @@ int devolverLivro(listaFilas *lista, lista_livro *listaLivro ,int isbnLivro, int
                 temp = fila->cabeca;
                 fila->cabeca = temp->proximo;
                 free(temp);
-                return 1;
+                return fila->tamanho;
             }else{
                 free(fila->cabeca);
                 free(fila);
                 localNo->status = 1;
-                return 2;
+                return -1;
             }
             }
         }
