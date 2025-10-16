@@ -36,6 +36,13 @@ int inserirLivro(lista_livro *lista, char titulo[100], char editora[50], char au
     novoLivro->cod = lista->tamanho + 1; // Atribui um código sequencial
     novoLivro->proximo = NULL; // O próximo do novo livro é NULL, pois o atual será o último da lista
 
+    // Verifica se já existe um livro com o mesmo título
+    livro *livroRepetido = buscarLivroPorTitulo(lista, titulo);
+    if (livroRepetido != NULL) {
+        free(novoLivro); // Libera a memória alocada para o novo livro
+        return 0; // Indica que o livro já existe
+    }
+
     if (listaLivroEstaVazia(lista)) {
         lista->cabeca = novoLivro; // Se a lista estiver vazia, o novo livro é a cabeça
     } else {
@@ -91,50 +98,35 @@ int removerLivro(lista_livro *lista, char titulo[100]) {
     return 1; // Sucesso
 }
 
-// Função para imprimir as informações de um livro pelo título
-void imprimirLivroInfo(lista_livro *lista, char titulo[100]) {
+// Função para buscar um livro pelo título, retorna o ponteiro do livro se encontrado
+livro* buscarLivroPorTitulo(lista_livro *lista, char titulo[100]) {
     if (listaLivroEstaVazia(lista)) {
-        printf("A lista de livros está vazia.\n");
-        return;
+        return NULL;
     }
-
-    livro *atual = lista->cabeca; // Ponteiro para percorrer a lista
-
-    // Percorre a lista para encontrar o livro com o título especificado
-    while (atual != NULL && strcmp(atual->titulo, titulo) != 0) {
-        atual = atual->proximo;
-    }
-
-    if (atual == NULL) {
-        printf("Livro com título '%s' não encontrado.\n", titulo);
-        return;
-    }
-
-    // Imprime as informações do livro encontrado
-    printf("Título: %s\n", atual->titulo);
-    printf("Editora: %s\n", atual->editora);
-    printf("Autor: %s\n", atual->autor);
-    printf("Status: %s\n", (atual->status == 1) ? "Disponível" : "Emprestado");
-    printf("ódigo: %d\n", atual->cod);
-}
-
-// Função para buscar o código de um livro pelo título
-int buscarCodigo(lista_livro *lista, char titulo[100]) {
-    if (listaLivroEstaVazia(lista)) {
-        return -1; // A lista está vazia, não há código para retornar
-    }
-
-    livro *atual = lista->cabeca; // Ponteiro para percorrer a lista
-
-    // Percorre a lista para encontrar o livro com o título especificado
+    livro *atual = lista->cabeca;
     while (atual != NULL) {
-        if (strcmp(atual->titulo, titulo) == 0) {
-            return atual->cod; // Retorna o código do livro encontrado
+        // Usa strncmp para comparação parcial (e para ignorar '\n' do fgets se houver)
+        if (strncmp(atual->titulo, titulo, strlen(titulo)) == 0) { 
+            return atual;
         }
         atual = atual->proximo;
     }
+    return NULL; // Livro não encontrado
+}
 
-    return -1; // Livro não encontrado
+// Função para buscar um livro pelo código, retorna o ponteiro do livro se encontrado
+livro* buscarLivroPorCodigo(lista_livro *lista, int cod) {
+    if (listaLivroEstaVazia(lista)) {
+        return NULL;
+    }
+    livro *atual = lista->cabeca;
+    while (atual != NULL) {
+        if (atual->cod == cod) {
+            return atual;
+        }
+        atual = atual->proximo;
+    }
+    return NULL; // Livro não encontrado
 }
 
 // Função para imprimir as informações de todos os livros na lista
@@ -156,27 +148,4 @@ void imprimirListaInfo(lista_livro *lista) {
         printf("-------------------------\n");
         atual = atual->proximo;
     }
-}
-
-// Função para imprimir o status de um livro pelo título
-void imprimirStatus(lista_livro *lista, char titulo[100]) {
-    if (listaLivroEstaVazia(lista)) {
-        printf("A lista de livros está vazia.\n");
-        return;
-    }
-
-    livro *atual = lista->cabeca; // Ponteiro para percorrer a lista
-
-    // Percorre a lista para encontrar o livro com o título especificado
-    while (atual != NULL && strcmp(atual->titulo, titulo) != 0) {
-        atual = atual->proximo;
-    }
-
-    if (atual == NULL) {
-        printf("Livro com título '%s' não encontrado.\n", titulo);
-        return;
-    }
-
-    // Imprime o status do livro encontrado
-    printf("Status do livro '%s': %s\n", atual->titulo, (atual->status == 1) ? "Disponível" : "Emprestado");
 }

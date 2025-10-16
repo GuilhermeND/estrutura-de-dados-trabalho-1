@@ -21,11 +21,10 @@ typedef struct list
 lista_livro* criarListaLivro();
 int listaLivroEstaVazia(lista_livro *lista); // Verifica se a lista está vazia (1 = vazia, 0 = não vazia)
 int inserirLivro(lista_livro *lista, char titulo[100], char editora[50], char autor[50]); // Insere um livro na lista
-int atualizarStatus(livro *livro); // Atualiza o status do livro (0 = emprestado, 1 = disponivel)
+int atualizarStatus(livro *livro); // Atualiza o status do livro (disponível ou emprestado)
 int removerLivro(lista_livro *lista, char titulo[100]); // Remove um livro da lista pelo título
-void imprimirLivroInfo(lista_livro *lista, char titulo[100]); // Imprime as informações de um livro pelo título
-int buscarCodigo(lista_livro *lista, char titulo[100]); // Busca o código de um livro pelo título
+livro* buscarLivroPorTitulo(lista_livro *lista, char titulo[100]); // Busca um livro pelo título, retorna o ponteiro
+livro* buscarLivroPorCodigo(lista_livro *lista, int cod); // Busca um livro pelo código, retorna o ponteiro
 void imprimirListaInfo(lista_livro *lista); // Imprime as informações de todos os livros na lista
-void imprimirStatus(lista_livro *lista, char titulo[100]); // Imprime o status (disponível/emprestado) de um livro pelo título
 
 #endif // LIVROS_H
