@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include <ctype.h>
 #include "livros.h"
 #include "lista.h"
 #include "emprestimos.h"
@@ -7,6 +8,8 @@
 int escolhaLivro(lista_livro *listaLivros){
     int escolha;
     char userIn[100];
+    int userInCod;
+    livro *livroBusca;
     while(1){
         printf("------------------LIVRO----------------\n");
         printf("1.Emprestar Livro\n");
@@ -29,13 +32,19 @@ int escolhaLivro(lista_livro *listaLivros){
             case 4:
                 printf("Escreva o nome do livro que deseja procurar: ");
                 fgets(userIn, sizeof(userIn), stdin);
-                imprimirLivroInfo(listaLivros, userIn);
+                livroBusca = buscarLivroPorTitulo(listaLivros, userIn);
+                printf("Titulo: %s\n Autor: %s\n Editora: %s\n Status: %d\n", livroBusca->titulo, livroBusca->autor, livroBusca->editora, livroBusca->status);
 
                 break;
             case 5:
                 printf("Escreva o nome do livro que deseja procurar: ");
-                fgets(userIn, sizeof(userIn), stdin);
-                imprimirStatus(listaLivros, userIn);
+                scanf("%d", &userInCod); 
+                livroBusca = buscarLivroPorCodigo(listaLivros, userInCod);
+                if(livroBusca->status){
+                    printf("O livro esta disponivel");
+                }else{
+                    printf("O livro nao esta disponivel");
+                }
                 break;
             case 6:
                 return 0;
@@ -76,7 +85,7 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
             case 4: 
                 return 0;
             default:
-                printf("Escolha inválida!");
+                printf("Escolha invalida!\n");
                 break;
         }
     }
@@ -84,13 +93,18 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
 
 int escolhaAdmnistrador(){
     int senha = 130;
-    int senhain;
-    int escolha;
+    int senhain = 0;
+    int escolha_ADM;
     printf("--------------ADMNISTRATIVO----------------\n");
     printf("Digite a senha: ");
-    scanf("%d", &senhain);
+    int result = scanf("%d", &senhain);
+    if(result != 1){
+        printf("Erro: Senha invalida tente novamente!\n");
+        while (getchar() != '\n');
+        return 0;
+    }
     if(senhain != senha){
-        printf("Erro: Senha inválida tente novamente!\n");
+        printf("Erro: Senha invalida tente novamente!\n");
         return 0;
     }
 
@@ -102,9 +116,9 @@ int escolhaAdmnistrador(){
     printf("4.Remover um livro\n");
     printf("5.Voltar\n");
 
-    scanf("%d", &escolha);
+    scanf("%d", &escolha_ADM);
 
-    switch (escolha){
+    switch (escolha_ADM){
         case 1:
             
             break;
@@ -118,14 +132,13 @@ int escolhaAdmnistrador(){
 
 int main(){
     listaFilas *listraControladora = criarListaFilas();
-    lista_livro *listaLivros = criarLista();
+    lista_livro *listaLivros = criarListaLivro();
     lista_usuario *listaUsuarios = criarListaUsuario();
     
     int escolha;
-
-    while(escolha != 0) {
+    while(1) {
         printf("--------------BIBLIOTECA----------------\n");
-        printf("Escolha uma das opções: \n");
+        printf("Escolha uma das opcoes: \n");
         printf("1.Livros\n");
         printf("2.Usuarios\n");
         printf("3.Administrado\n");

@@ -34,7 +34,7 @@ int deletarListaFilas();
 
 
 //função para verificar se existe a fila para aquele livro
-int veriFila(listaFilas *lista, livro *livrop){
+fila *veriFila(listaFilas *lista, livro *livrop){
     int i;
     fila *localNo = lista->filaCabeca;
     for(i=0; i<lista->tamanho; i++){
@@ -54,11 +54,11 @@ int colocaFila(int matricula, livro *livrop, listaFilas *lista){
     if(livrop->status == 1) return 0;
     fila *enderecoFila = veriFila(lista, livrop);
     if(enderecoFila){
-        inserirFila(matricula, enderecoFila->fila);
+        inserirFila(enderecoFila->fila, matricula);
         return 1;
     }else{
         filaUsuarios *novaFila = criarListaFilaUsuarios();
-        inserirFila(matricula, novaFila);
+        inserirFila(novaFila, matricula);
         return novaFila->tamanho;
     }
 }
@@ -78,7 +78,7 @@ int fazerEmprestimo(listaFilas *lista, lista_livro *listaLivro, int isbnLivro, i
         }
         localNo = localNo->proximo;
     }
-    return NULL;
+    return -1;
 }
 
 //funcao de devolucao de livro, lida com o caso de precisar deletar a lista se so existe uma pessoa esperando e caso ha mais de uma pessoa na fila.
