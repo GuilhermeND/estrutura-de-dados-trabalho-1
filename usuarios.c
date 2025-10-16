@@ -30,9 +30,15 @@ int inserirFim(lista_usuario *lista, char nome[50], int matricula, int cargo) {
 
     // Preenche os dados do novo usuário
     strcpy(novoUsuario->nome, nome);
-    strcpy(novoUsuario->matricula, matricula);
+    novoUsuario->matricula = matricula;
     novoUsuario->tipo = cargo; // 0 = estudante, 1 = professor
     novoUsuario->proximo = NULL; // O próximo do novo usuário é NULL, pois o atual será o último da lista
+
+    // Inicializa os arrays de livros emprestados e datas de devolução como strings vazias
+    for (int i = 0; i < 2; i++) {
+        novoUsuario->livros_emprestados[i][0] = '\0'; 
+        novoUsuario->data_devolucao[i][0] = '\0';
+    }
 
     if (estaVazia(lista)) {
         lista->cabeca = novoUsuario; // Se a lista estiver vazia, o novo usuário é a cabeça
@@ -47,26 +53,7 @@ int inserirFim(lista_usuario *lista, char nome[50], int matricula, int cargo) {
     return 1; // Sucesso
 }
 
-// Função para buscar um usuário pelo nome
-int buscarUsuario(lista_usuario *lista, char nome[50]) {
-    if (estaVazia(lista)) {
-        return 0; // A lista está vazia, não há usuários para buscar
-    }
-
-    usuario *atual = lista->cabeca; // Ponteiro para percorrer a lista
-
-    // Percorre a lista para encontrar o usuário com o nome especificado
-    while (atual != NULL) {
-        if (strcmp(atual->nome, nome) == 0) {
-            return 1; // Usuário encontrado
-        }
-        atual = atual->proximo;
-    }
-
-    return 0; // Usuário não encontrado
-}
-
-// Função para buscar um usuário pela matrícula
+// Função para buscar um usuário pela matrícula a partir do nome
 int buscarMatricula(lista_usuario *lista, char nome[50]) {
     if (estaVazia(lista)) {
         return 0; // A lista está vazia, não há usuários para buscar
@@ -77,7 +64,8 @@ int buscarMatricula(lista_usuario *lista, char nome[50]) {
     // Percorre a lista para encontrar o usuário com o nome especificado
     while (atual != NULL) {
         if (strcmp(atual->nome, nome) == 0) {
-            return atual->matricula; // Retorna a matrícula do usuário encontrado
+            printf("Matrícula do usuário '%s': %d\n", nome, atual->matricula); // Imprime a matrícula do usuário
+            return 1; // Usuário encontrado
         }
         atual = atual->proximo;
     }
@@ -85,7 +73,37 @@ int buscarMatricula(lista_usuario *lista, char nome[50]) {
     return 0; // Usuário não encontrado
 }
 
-int removerUsuario(lista_usuario *lista, char nome[50]) {
+// Função para buscar um usuário pela matrícula
+int buscarUsuario(lista_usuario *lista, int matricula) {
+    if (estaVazia(lista)) {
+        return 0; // A lista está vazia, não há usuários para buscar
+    }
+
+    usuario *atual = lista->cabeca; // Ponteiro para percorrer a lista
+
+    // Percorre a lista para encontrar o usuário com a matrícula especificada
+    while (atual != NULL) {
+        if (atual->matricula == matricula) {
+            // Imprime as informações do usuário encontrado
+            printf("Nome: %s\n", atual->nome);
+            printf("Matrícula: %d\n", atual->matricula);
+            printf("Tipo: %s\n", (atual->tipo == 0) ? "Estudante" : "Professor");
+            printf("Livros emprestados:\n");
+            for (int i = 0; i < 2; i++) {
+                if (strlen(atual->livros_emprestados[i]) > 0) {
+                    printf("- %s (Data de devolução: %s)\n", atual->livros_emprestados[i], atual->data_devolucao[i]);
+                }
+            }
+            return 1; // Usuário encontrado
+        }
+        atual = atual->proximo;
+    }
+
+    return 0; // Usuário não encontrado
+}
+
+// Função para remover um usuário pela matrícula
+int removerUsuario(lista_usuario *lista, int matricula) {
     if (estaVazia(lista)) {
         return 0; // A lista está vazia, nada para remover
     }
@@ -93,10 +111,10 @@ int removerUsuario(lista_usuario *lista, char nome[50]) {
     usuario *atual = lista->cabeca; // Ponteiro para percorrer a lista
     usuario *anterior = NULL; // Ponteiro para o usuário anterior
 
-    // Percorre a lista para encontrar o usuário com o nome especificado
-    while (atual != NULL && strcmp(atual->nome, nome) != 0) { 
-        anterior = atual; 
-        atual = atual->proximo; 
+    // Percorre a lista para encontrar o usuário com a matrícula especificada
+    while (atual != NULL && atual->matricula != matricula) {
+        anterior = atual;
+        atual = atual->proximo;
     }
 
     if (atual == NULL) {
@@ -113,5 +131,36 @@ int removerUsuario(lista_usuario *lista, char nome[50]) {
 
     free(atual); // Libera a memória do usuário removido
     lista->tamanho--; // Decrementa o tamanho da lista
+    printf("Usuário '%s' com matrícula '%d' removido com sucesso.\n", atual->nome, matricula);
     return 1; // Sucesso
+}
+
+// Função para imprimir os livros emprestados por um usuário
+void imprimirLivrosEmprestados(lista_usuario *lista, int matricula) {
+    if (estaVazia(lista)) {
+        printf("A lista de usuários está vazia.\n");
+        return;
+    }
+
+    usuario *atual = lista->cabeca; // Ponteiro para percorrer a lista aponta para a cabeça
+
+    // Percorre a lista para encontrar o usuário com a matrícula especificada
+    while (atual != NULL && atual->matricula != matricula) {
+        atual = atual->proximo;
+    }
+
+    // Verifica se o usuário foi encontrado
+    if (atual == NULL) {
+        printf("Usuário com matrícula '%d' não encontrado.\n", matricula);
+        return;
+    }
+    
+    // Imprime os livros emprestados pelo usuário
+    printf("Livros emprestados pelo usuário '%s':\n", atual->nome);
+    for (int i = 0; i < 2; i++) {
+        if (strlen(atual->livros_emprestados[i]) > 0) {
+            printf("- %s\n", atual->livros_emprestados[i]);
+            printf("  Data de devolução: %s\n", atual->data_devolucao[i]);
+        }
+    }
 }

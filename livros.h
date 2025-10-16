@@ -3,7 +3,7 @@ typedef struct no
     char titulo[100];
     char editora[50];
     char autor[50];
-    int status;
+    int status; // 0 = emprestado, 1 = disponivel
     int isbn;
     struct no *proximo;
 } livro;
