@@ -66,19 +66,19 @@ int atualizarStatus(livro *livro){
     return 1; // Sucesso
 }
 
-// Função para remover um livro da lista pelo título
-int removerLivro(lista_livro *lista, char titulo[100]) {
+// Função para remover um livro da lista pelo código
+int removerLivro(lista_livro *lista, int cod) {
     if (listaLivroEstaVazia(lista)) {
         return 0; // A lista está vazia, nada para remover
     }
 
-    livro *atual = lista->cabeca; // Ponteiro para percorrer a lista
-    livro *anterior = NULL; // Ponteiro para o livro anterior
+    livro *atual = lista->cabeca;   // Ponteiro para percorrer a lista
+    livro *anterior = NULL;         // Ponteiro para o livro anterior
 
-    // Percorre a lista para encontrar o livro com o título especificado
-    while (atual != NULL && strcmp(atual->titulo, titulo) != 0) { 
-        anterior = atual; 
-        atual = atual->proximo; 
+    // Percorre a lista até encontrar o livro com o código especificado
+    while (atual != NULL && atual->cod != cod) {
+        anterior = atual;
+        atual = atual->proximo;
     }
 
     if (atual == NULL) {
@@ -87,15 +87,15 @@ int removerLivro(lista_livro *lista, char titulo[100]) {
 
     // Remove o livro da lista
     if (anterior == NULL) {
-        // O livro a ser removido é a cabeça da lista
+        // O livro a ser removido é o primeiro da lista
         lista->cabeca = atual->proximo;
     } else {
         anterior->proximo = atual->proximo;
     }
 
-    free(atual); // Libera a memória do livro removido
-    lista->tamanho--; // Decrementa o tamanho da lista
-    return 1; // Sucesso
+    free(atual);            // Libera a memória do livro removido
+    lista->tamanho--;       // Decrementa o tamanho da lista
+    return 1;               // Sucesso
 }
 
 // Função para buscar um livro pelo título, retorna o ponteiro do livro se encontrado
