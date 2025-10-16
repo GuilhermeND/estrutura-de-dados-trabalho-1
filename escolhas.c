@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <ctype.h>
 #include <string.h>
 #include "livros.h"
@@ -20,6 +20,8 @@ int escolhaLivro(lista_livro *listaLivros){
         printf("4.Buscar informacoes do livro por nome\n");
         printf("5.Imprimir disponibilidade de um livro\n");
         printf("6.Voltar\n");
+        printf("Opcao: ");
+        
         result = scanf("%d", &escolha_livro);
         if(result != 1){
             printf("Erro: Valor invalido tente novamente!\n");
@@ -63,6 +65,7 @@ int escolhaLivro(lista_livro *listaLivros){
                     printf("O livro nao esta disponivel");
                 }
                 break;
+
             case 6:
                 return 0;
             default:
@@ -84,6 +87,8 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
         printf("2.Exibir livro(s) emprestado(s) de um usuario\n");
         printf("3.Buscar matricula de usuario por nome\n");
         printf("4.Voltar\n");
+        printf("Opcao: ");
+
         result = scanf("%d", &escolha_Usuario);
         if(result != 1){
             printf("Erro: Valor invalido tente novamente!\n");
@@ -91,7 +96,6 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
             continue;
         }
         
-
         switch (escolha_Usuario){
             case 1:
                 printf("Escreva a matricula do usuario: ");
@@ -101,6 +105,7 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                     while (getchar() != '\n');
                 }
                 break;
+
             case 2:
                 printf("Escreva a matricula do usuario: ");
                 result = scanf("%d", &userIn);
@@ -109,6 +114,7 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                     while (getchar() != '\n');
                 }
                 break;
+
             case 3:
                 printf("Escreva o nome do usuario(precisa ser o nome exato):  ");
                 while (getchar() != '\n');
@@ -120,6 +126,7 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                 userName[strcspn(userName, "\n")] = '\0';
                 buscarMatricula(listaUsuarios, userName);
                 break;
+
             case 4: 
                 return 0;
             default:
@@ -159,6 +166,7 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
         printf("3.Remover um usuario\n");
         printf("4.Remover um livro\n");
         printf("5.Voltar\n");
+        printf("Opcao: ");
 
         result = scanf("%d", &escolha_ADM);
         
@@ -201,8 +209,6 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 inserirUsuario(listaUsuarios, nome, matricula, cargo);
                 break;
             
-
-
             case 2:
                 char titulo[100];
                 char editora[50];
@@ -229,8 +235,6 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 inserirLivro(listaLivros, titulo, editora, autor);
                 break;
 
-
-
             case 3:
                 printf("Escreva a matricula do usuario que deseja remover: ");
                 result = scanf("%d", &matricula);
@@ -247,7 +251,6 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                     printf("Removido com sucesso!\n");
                 }
                 break;
-
 
             case 4:
                 printf("Escreva o codigo do livro que deseja remover: ");
@@ -266,7 +269,6 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 }
                 break;
 
-                
             case 5:
                 return 0;    
             default:

@@ -4,6 +4,7 @@
 #include "lista.h"
 #include "emprestimos.h"
 #include "usuarios.h"
+
 int main(){
     listaFilas *listraControladora = criarListaFilas();
     lista_livro *listaLivros = criarListaLivro();
@@ -17,6 +18,8 @@ int main(){
         printf("1.Livros\n");
         printf("2.Usuarios\n");
         printf("3.Administrado\n");
+        printf("0.Sair\n");
+        printf("Opcao: ");
         result = scanf("%d", &escolha);
         if(result != 1){
             printf("Erro: Valor invalido tente novamente!\n");
@@ -38,11 +41,11 @@ int main(){
             case 0:
                 printf("Encerrando o programa.\n");
                 break;
+
             default:
                 printf("Erro: Escolha inválida!\n");
                 break;
         }
     }
-
     return 0;
 }

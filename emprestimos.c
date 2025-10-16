@@ -8,7 +8,6 @@
 #include "livros.h"
 #include "lista.h"
 
-
 //cria a lista controladora de filas (1 por programa)
 listaFilas *criarListaFilas(){
     listaFilas *lista = (listaFilas*) malloc(sizeof(listaFilas));
@@ -19,21 +18,16 @@ listaFilas *criarListaFilas(){
     }
 }
 
-//adiciona uma fila para a lista controladora
-
+// Função para adicionar uma fila para a lista controladora
 int adicionarListaFilas();
 
-//remove uma fila da lista controladora
-
+// Função para remover uma fila da lista controladora
 int removerListaFilas();
 
-//deleta a controladora no fim da execucao do programa
-
+// Função para deletar a controladora no fim da execução do programa
 int deletarListaFilas();
 
-
-
-//função para verificar se existe a fila para aquele livro
+// Função para verificar se existe a fila para aquele livro
 fila *veriFila(listaFilas *lista, livro *livrop){
     int i;
     fila *localNo = lista->filaCabeca;
@@ -46,9 +40,7 @@ fila *veriFila(listaFilas *lista, livro *livrop){
     return NULL;
 }
 
-
-
-//função para colocar em uma fila quando ocorre um emprestimo, lida com casos de livro já emprestado ou nao e se a fila ainda existe ou n
+// Função para colocar em uma fila quando ocorre um emprestimo, lida com casos de livro já emprestado ou nao e se a fila ainda existe ou n
 int colocaFila(int matricula, livro *livrop, listaFilas *lista){
 
     if(livrop->status == 1) return 0;
@@ -63,8 +55,7 @@ int colocaFila(int matricula, livro *livrop, listaFilas *lista){
     }
 }
 
-//funcao que efetiviamente faz o emprestimo
-
+// Função que efetivamente faz o emprestimo
 int fazerEmprestimo(listaFilas *lista, lista_livro *listaLivro, int isbnLivro, int matricula){
     int i;
     livro *localNo = listaLivro->cabeca;
@@ -81,8 +72,7 @@ int fazerEmprestimo(listaFilas *lista, lista_livro *listaLivro, int isbnLivro, i
     return -1;
 }
 
-//funcao de devolucao de livro, lida com o caso de precisar deletar a lista se so existe uma pessoa esperando e caso ha mais de uma pessoa na fila.
-
+// Função de devolucao de livro, lida com o caso de precisar deletar a lista se so existe uma pessoa esperando e caso ha mais de uma pessoa na fila.
 int devolverLivro(listaFilas *lista, lista_livro *listaLivro ,int isbnLivro, int matricula){
     int i;
     fila *filaEndereco;
