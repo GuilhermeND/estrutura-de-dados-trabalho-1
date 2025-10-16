@@ -17,7 +17,7 @@ filaUsuarios* criarListaFilaUsuarios() {
 }
 
 // Função para verificar se a fila de espera está vazia
-int estaVaziaFila(filaUsuarios *lista) {
+int FilaEstaVazia(filaUsuarios *lista) {
     return (lista->tamanho == 0); // Retorna 1 se estiver vazia e 0 se não estiver
 }
 
@@ -32,7 +32,7 @@ int inserirFila(filaUsuarios *lista, int matricula) {
     // Preenche os dados do novo nó
     novoNo->matricula = matricula;
 
-    if (estaVaziaFila(lista)) {
+    if (FilaEstaVazia(lista)) {
         lista->cabeca = novoNo; // Se a lista estiver vazia, o novo nó é a cabeça
         lista->pe = novoNo; // O ponteiro pe também aponta para o novo nó
         novoNo->proximo = novoNo; // Aponta para si mesmo, formando um círculo
@@ -51,7 +51,7 @@ int inserirFila(filaUsuarios *lista, int matricula) {
 
 // Função para remover o usuário no início da fila
 int removerFila(filaUsuarios *lista) {
-    if (estaVaziaFila(lista)) {
+    if (FilaEstaVazia(lista)) {
         return 0; // A lista está vazia, não há nós para remover
     }
 
@@ -75,7 +75,7 @@ int removerFila(filaUsuarios *lista) {
 
 // Função para imprimir a fila
 void imprimirFila(filaUsuarios *lista) {
-    if (estaVaziaFila(lista)) {
+    if (FilaEstaVazia(lista)) {
         printf("A fila está vazia.\n");
         return;
     }
