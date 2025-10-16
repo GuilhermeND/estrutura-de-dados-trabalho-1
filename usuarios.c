@@ -116,9 +116,9 @@ int removerUsuario(lista_usuario *lista, int matricula) {
         anterior->proximo = atual->proximo;
     }
 
+    printf("Usuário '%s' com matrícula '%d' removido com sucesso.\n", atual->nome, matricula);
     free(atual); // Libera a memória do usuário removido
     lista->tamanho--; // Decrementa o tamanho da lista
-    printf("Usuário '%s' com matrícula '%d' removido com sucesso.\n", atual->nome, matricula);
     return 1; // Sucesso
 }
 
@@ -149,5 +149,32 @@ void imprimirLivrosEmprestados(lista_usuario *lista, int matricula) {
             printf("- %s\n", atual->livros_emprestados[i]);
             printf("  Data de devolução: %s\n", atual->data_devolucao[i]);
         }
+    }
+}
+
+// Função para imprimir a lista de usuários
+void imprimirListaUsuarios(lista_usuario *lista) {
+    if (listaUsuarioEstaVazia(lista)) {
+        printf("Erro: A lista de usuários está vazia.\n");
+        return;
+    }
+
+    usuario *atual = lista->cabeca; // Ponteiro para percorrer a lista
+
+    printf("Lista de usuários:\n");
+    while (atual != NULL) {
+        printf("Nome: %s, Matrícula: %d, Tipo: %s\n", atual->nome, atual->matricula, (atual->tipo == 0) ? "Estudante" : "Professor");
+        // se tiver livros emprestados deve dizer qual ou quais
+        if (strlen(atual->livros_emprestados[0]) > 0 || strlen(atual->livros_emprestados[1]) > 0) {
+            printf("  Livros emprestados:\n");
+            for (int i = 0; i < 2; i++) {
+                if (strlen(atual->livros_emprestados[i]) > 0) {
+                    printf("  - %s (Devolução: %s)\n", atual->livros_emprestados[i], atual->data_devolucao[i]);
+                }
+            }
+        } else {
+            printf("  Nenhum livro emprestado.\n");
+        }
+        atual = atual->proximo;
     }
 }

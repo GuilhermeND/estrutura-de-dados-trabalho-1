@@ -39,7 +39,6 @@ int escolhaLivro(lista_livro *listaLivros){
                 break;
             case 6:
                 return 0;
-                break;
             default:
                 printf("Valor Inválido!");
                 break;
@@ -76,8 +75,6 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                 break;
             case 4: 
                 return 0;
-                break;
-            
             default:
                 printf("Escolha inválida!");
                 break;
@@ -93,11 +90,11 @@ int escolhaAdmnistrador(){
     printf("Digite a senha: ");
     scanf("%d", &senhain);
     if(senhain != senha){
-        printf("Senha inválida tente novamente!\n");
+        printf("Erro: Senha inválida tente novamente!\n");
         return 0;
     }
 
-    printf("Logado com sucesso!");
+    printf("Logado com sucesso!\n");
     printf("--------------ADMNISTRATIVO----------------\n");
     printf("1.Adicionar um usuario\n");
     printf("2.Adicionar um livro\n");
@@ -150,7 +147,7 @@ int main(){
                 printf("Encerrando o programa.\n");
                 break;
             default:
-                printf("Escolha inválida!\n");
+                printf("Erro: Escolha inválida!\n");
                 break;
         }
     }

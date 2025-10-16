@@ -19,9 +19,9 @@ typedef struct _lista_fila_circular
 
 // Protótipos das funções para manipulação da lista circular (fila de espera)
 filaUsuarios* criarListaFilaUsuarios();
-int FilaEstaVazia(filaUsuarios *fila); // Verifica se a fila está vazia (1 = vazia, 0 = não vazia)
-int inserirFila(filaUsuarios *fila, int matricula); // Insere um usuário na fila
-int removerFila(filaUsuarios *fila); // Remove o usuário no início da fila
-void imprimirFila(filaUsuarios *fila); // Imprime os usuários na fila
+int FilaEstaVazia(filaUsuarios *lista); // Verifica se a fila está vazia (1 = vazia, 0 = não vazia)
+int inserirFila(filaUsuarios *lista, int matricula); // Insere um usuário na fila
+int removerFila(filaUsuarios *lista); // Remove o usuário no início da fila
+void imprimirFila(filaUsuarios *lista); // Imprime os usuários na fila
 
 #endif // LISTA_H
