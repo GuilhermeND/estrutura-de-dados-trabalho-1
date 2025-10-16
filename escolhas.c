@@ -109,6 +109,8 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
     int userIn;
     char userName[100];
     int result;
+    int e;
+    usuario *localUser;
     while(1){
         printf("--------------USUARIO----------------\n");
         printf("1.Exibir informacoes de um usuario\n");
@@ -132,6 +134,19 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                     printf("Erro: Valor invalido tente novamente!\n");
                     while (getchar() != '\n');
                 }
+                localUser = buscarUsuario(listaUsuarios, userIn);
+                if(!localUser){
+                    printf("Lista vazia ou usuario nao encontrado!\n");
+                    continue;
+                }else{
+                    printf("Nome: %s\n Matricula: %d\n", localUser->nome, localUser->matricula);
+                    if(localUser->tipo == 0){
+                        printf("Tipo: Estudante");
+                    }else{
+                        printf("Tipo: Professor");
+                    }
+                    printf("Data devolucao: "); //FALTA FAZER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                }
                 break;
 
             case 2:
@@ -152,7 +167,11 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                     while ((c = getchar()) != '\n' && c != EOF);
                 }
                 userName[strcspn(userName, "\n")] = '\0';
-                buscarMatricula(listaUsuarios, userName);
+                e = buscarMatricula(listaUsuarios, userName);
+                if(!e){
+                    printf("Usuario nao encontrado ou fila vazia!");
+                    continue;
+                }
                 break;
 
             case 4: 
