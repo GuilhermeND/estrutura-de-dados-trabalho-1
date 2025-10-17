@@ -6,7 +6,7 @@
 #include "emprestimos.h"
 #include "usuarios.h"
 
-int escolhaLivro(listaFilas *listaControladora, lista_livro *listaLivros){
+int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lista_livro *listaLivros){
     int escolha_livro;
     char userIn[100];
     int userInCod;
@@ -42,7 +42,7 @@ int escolhaLivro(listaFilas *listaControladora, lista_livro *listaLivros){
                 printf("Insira o codigo da matricula de quem vai emprestar: ");
                 scanf("%d", &userInMat);
                 while (getchar() != '\n');
-                e = fazerEmprestimo(listaControladora, listaLivros, userInCod, userInMat);
+                e = fazerEmprestimo(listaUsuario, listaControladora, listaLivros, userInCod, userInMat);
                 if(e == -1){
                     printf("Erro ao emprestar!\n");
                     continue;
@@ -61,7 +61,7 @@ int escolhaLivro(listaFilas *listaControladora, lista_livro *listaLivros){
                 printf("Insira o codigo da matricula de quem vai devolver: ");
                 scanf("%d", &userInMat);
                 while (getchar() != '\n');
-                e = fazerEmprestimo(listaControladora, listaLivros, userInCod, userInMat);
+                e = devolverLivro(listaControladora, listaLivros, userInCod, userInMat);
                 if(e == 0){
                     printf("Erro ao emprestar!\n");
                     continue;

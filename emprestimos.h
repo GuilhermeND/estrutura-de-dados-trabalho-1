@@ -19,6 +19,12 @@ typedef struct _listaFilas
     int tamanho;
 } listaFilas;
 
+typedef struct date{
+    char dataHoje[11];
+}data;
+
+data calcularDataDevolucao();
+
 listaFilas *criarListaFilas(); // Função que cria a lista controladora de filas (1 por programa)
 
 int adicionarListaFilas(); // Função que adiciona uma fila para a lista controladora
@@ -41,7 +47,9 @@ int colocaFila(int matricula, livro *livrop, listaFilas *lista);
 //chama criarListaFila() e adiciona o usuário com inserirFila()
 //retorna a posição do usuário na fila = tamanho
 
-int fazerEmprestimo(listaFilas *lista, lista_livro *listaLivro, int codLivro, int matricula);
+int definirLivros(livro *livrop, usuario *usariop);
+
+int fazerEmprestimo(lista_usuario *listaUsuario, listaFilas *lista, lista_livro *listaLivro, int isbnLivro, int matricula);
 
 //se livro está emprestado chama colocarFila
 

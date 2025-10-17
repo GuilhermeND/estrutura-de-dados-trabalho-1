@@ -1,12 +1,13 @@
 #ifndef USUARIOS_H
 #define USUARIOS_H
+#include "livros.h"
 
 typedef struct user
 {
     char nome[50];
     int matricula; // GRR
     int tipo; // 0 = estudante 1 = professor
-    char livros_emprestados[2][100]; // armazena o título dos livros emprestados
+    livro *livros_emprestados[2]; // armazena o ponteiro dos livros emprestados
     char data_devolucao[2][11]; // armazena a data de devolução dos livros
     struct user *proximo;
 } usuario;

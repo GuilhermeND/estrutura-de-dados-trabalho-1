@@ -27,7 +27,7 @@ int main(){
         }
         switch (escolha){
             case 1:
-                escolhaLivro(listaControladora, listaLivros);
+                escolhaLivro(listaUsuarios, listaControladora, listaLivros);
                 break;
 
             case 2:

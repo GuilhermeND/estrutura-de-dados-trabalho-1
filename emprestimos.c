@@ -1,12 +1,28 @@
 //as funcoes ainda estao imcompletas, falta algumas dependencias ainda!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "emprestimos.h"
 #include "usuarios.h"
 #include "livros.h"
 #include "lista.h"
+
+data calcularDataDevolucao() {
+    data data_devolucao;
+
+    time_t agora = time(NULL);
+
+    struct tm* data_emprestimo = localtime(&agora);
+
+    data_emprestimo->tm_mday += 7;
+
+    mktime(data_emprestimo);
+
+    strftime(data_devolucao.dataHoje, sizeof(data_devolucao.dataHoje), "%Y-%m-%d", data_emprestimo);
+
+    return data_devolucao;
+}
 
 //cria a lista controladora de filas (1 por programa)
 listaFilas *criarListaFilas(){
@@ -55,15 +71,33 @@ int colocaFila(int matricula, livro *livrop, listaFilas *lista){
     }
 }
 
+int definirLivros(livro *livrop, usuario *usuariop){
+    data dataDevolucao = calcularDataDevolucao();
+    if(usuariop->livros_emprestados[0] != NULL && usuariop->livros_emprestados[1] != NULL){
+        return 0;
+    }
+    if(usuariop->livros_emprestados[0] == NULL){
+        usuariop->livros_emprestados[0] = livrop;
+        strcpy(usuariop->data_devolucao[0], dataDevolucao.dataHoje);
+    }else{
+        usuariop->livros_emprestados[1] = livrop;
+        strcpy(usuariop->data_devolucao[1], dataDevolucao.dataHoje);
+    }
+    return 1;
+}
+
+
 // Função que efetivamente faz o emprestimo
-int fazerEmprestimo(listaFilas *lista, lista_livro *listaLivro, int isbnLivro, int matricula){
+int fazerEmprestimo(lista_usuario *listaUsuario, listaFilas *lista, lista_livro *listaLivro, int isbnLivro, int matricula){
     int i;
+    usuario *localUsuario = buscarUsuario(listaUsuario, matricula);
     livro *localNo = listaLivro->cabeca;
     for(i=0; i<lista->tamanho; i++){
         if(localNo->cod == isbnLivro){
            int veri = colocaFila(matricula, localNo, lista);
             if(!veri){
                 localNo->status = 0;
+                definirLivros(localNo, localUsuario);
                 return veri;
             }else return veri;
         }

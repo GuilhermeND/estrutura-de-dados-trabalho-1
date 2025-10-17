@@ -36,7 +36,7 @@ int inserirUsuario(lista_usuario *lista, char nome[50], int matricula, int cargo
 
     // Inicializa os arrays de livros emprestados e datas de devolução como strings vazias
     for (int i = 0; i < 2; i++) {
-        novoUsuario->livros_emprestados[i][0] = '\0'; 
+        novoUsuario->livros_emprestados[i] = NULL; 
         novoUsuario->data_devolucao[i][0] = '\0';
     }
 
@@ -128,53 +128,67 @@ void imprimirLivrosEmprestados(lista_usuario *lista, int matricula) {
         printf("A lista de usuarios esta vazia.\n");
         return;
     }
-
-    usuario *atual = lista->cabeca; // Ponteiro para percorrer a lista aponta para a cabeça
-
+    usuario *atual = lista->cabeca; // Ponteiro para percorrer a lista
     // Percorre a lista para encontrar o usuário com a matrícula especificada
     while (atual != NULL && atual->matricula != matricula) {
         atual = atual->proximo;
     }
-
     // Verifica se o usuário foi encontrado
     if (atual == NULL) {
         printf("Usuario com matricula '%d' nao encontrado.\n", matricula);
         return;
     }
-    
     // Imprime os livros emprestados pelo usuário
     printf("Livros emprestados pelo usuario '%s':\n", atual->nome);
+    int livrosEncontrados = 0;
+
     for (int i = 0; i < 2; i++) {
-        if (strlen(atual->livros_emprestados[i]) > 0) {
-            printf("- %s\n", atual->livros_emprestados[i]);
+        // MODIFICAÇÃO 1: Verifica se o ponteiro para o livro não é nulo
+        if (atual->livros_emprestados[i] != NULL) {
+            // MODIFICAÇÃO 2: Acessa o campo 'titulo' da struct 'livro' apontada
+            printf("- %s\n", atual->livros_emprestados[i]->titulo);
             printf("  Data de devolucao: %s\n", atual->data_devolucao[i]);
+            livrosEncontrados++;
         }
     }
+    if (livrosEncontrados == 0) {
+        printf("Nenhum livro emprestado no momento.\n");
+    }
 }
+
 
 // Função para imprimir a lista de usuários
 void imprimirListaUsuarios(lista_usuario *lista) {
     if (listaUsuarioEstaVazia(lista)) {
-        printf("Erro: A lista de usuarios esta vazia.\n");
+        printf("A lista de usuarios esta vazia.\n");
         return;
     }
 
     usuario *atual = lista->cabeca; // Ponteiro para percorrer a lista
 
-    printf("Lista de usuarios:\n");
+    printf("--- Lista de Usuarios ---\n");
     while (atual != NULL) {
-        printf("Nome: %s, Matricula: %d, Tipo: %s\n", atual->nome, atual->matricula, (atual->tipo == 0) ? "Estudante" : "Professor");
-        // se tiver livros emprestados deve dizer qual ou quais
-        if (strlen(atual->livros_emprestados[0]) > 0 || strlen(atual->livros_emprestados[1]) > 0) {
+        printf("Nome: %s, Matricula: %d, Tipo: %s\n", 
+               atual->nome, 
+               atual->matricula, 
+               (atual->tipo == 0) ? "Estudante" : "Professor");
+        
+        // MODIFICAÇÃO 1: Verifica se algum dos ponteiros de livro não é nulo
+        if (atual->livros_emprestados[0] != NULL || atual->livros_emprestados[1] != NULL) {
             printf("  Livros emprestados:\n");
             for (int i = 0; i < 2; i++) {
-                if (strlen(atual->livros_emprestados[i]) > 0) {
-                    printf("  - %s (Devolucao: %s)\n", atual->livros_emprestados[i], atual->data_devolucao[i]);
+                // MODIFICAÇÃO 2: Verifica cada ponteiro individualmente
+                if (atual->livros_emprestados[i] != NULL) {
+                    // MODIFICAÇÃO 3: Acessa o título do livro através do ponteiro
+                    printf("  - %s (Devolucao: %s)\n", 
+                           atual->livros_emprestados[i]->titulo, 
+                           atual->data_devolucao[i]);
                 }
             }
         } else {
             printf("  Nenhum livro emprestado.\n");
         }
+        printf("\n"); // Adiciona um espaço para melhor legibilidade
         atual = atual->proximo;
     }
 }
