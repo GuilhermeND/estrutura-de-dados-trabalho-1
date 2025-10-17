@@ -73,7 +73,7 @@ int removerFila(filaUsuarios *lista) {
 
     free(noRemovido); // Libera a memória do nó removido
     lista->tamanho--; // Decrementa o tamanho da lista
-    return 1; // Sucesso
+    return lista->cabeca->matricula; // Sucesso
 }
 
 // Função para imprimir a fila
