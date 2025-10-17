@@ -43,11 +43,15 @@ int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lis
                 scanf("%d", &userInMat);
                 while (getchar() != '\n');
                 e = fazerEmprestimo(listaUsuario, listaControladora, listaLivros, userInCod, userInMat);
-                if(e == -1){
-                    printf("Erro: Falha ao emprestar!\n");
-                    continue;
-                }else{
-                    printf("Sucesso ao emprestar e a posicao na fila eh: %d\n", e);
+                if (e == 1) { 
+                    // Empréstimo bem-sucedido (retorno 1). A mensagem detalhada já foi impressa.
+                    printf("Sucesso na operacao de emprestimo!\n");
+                } else if (e < 0) { 
+                    // Sucesso na Fila (retorno negativo). A mensagem detalhada já foi impressa.
+                    printf ("Usuario adicionado na fila de espera.\n");
+                } else { // Retorno 0: Falha (Limite, não encontrado, ou falha de alocação)
+                    // A mensagem de erro detalhada já foi impressa em fazerEmprestimo (Ex: Limite atingido)
+                    printf("Operacao de emprestimo/fila nao concluida.\n");
                 }
                 break;
             case 2:
@@ -113,7 +117,6 @@ int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lis
                 printf("Insira o codigo do livro para ver a fila de espera: ");
                 scanf("%d", &userInCod);
                 while (getchar() != '\n');
-                printf("Fila de espera do livro %d:\n", userInCod);
                 // Imprimir a fila de espera
                 imprimirFilaEspera(listaControladora, listaLivros, userInCod);
                 printf("\n");
