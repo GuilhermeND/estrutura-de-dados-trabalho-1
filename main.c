@@ -79,5 +79,8 @@ int main(){
                 break;
         }
     }
+    deletarListaFilas(listaControladora);
+    deletarListaLivros(listaLivros);
+    deletarListaUsuarios(listaUsuarios);
     return 0;
 }  

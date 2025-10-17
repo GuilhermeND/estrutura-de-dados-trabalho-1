@@ -26,5 +26,6 @@ int removerLivro(lista_livro *lista, int cod); // Remove um livro da lista pelo 
 livro* buscarLivroPorTitulo(lista_livro *lista, char titulo[100]); // Busca um livro pelo título, retorna o ponteiro
 livro* buscarLivroPorCodigo(lista_livro *lista, int cod); // Busca um livro pelo código, retorna o ponteiro
 void imprimirListaInfo(lista_livro *lista); // Imprime as informações de todos os livros na lista
+int deletarListaLivros(lista_livro *lista);
 
 #endif // LIVROS_H

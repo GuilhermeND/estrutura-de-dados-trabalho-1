@@ -156,3 +156,18 @@ void imprimirListaInfo(lista_livro *lista) {
         atual = atual->proximo;
     }
 }
+
+int deletarListaLivros(lista_livro *lista) {
+    if (!lista) return 0; // lista nula
+
+    livro *atual = lista->cabeca;
+    while (atual != NULL) {
+        livro *prox = atual->proximo;
+        free(atual);
+        atual = prox;
+    }
+
+    lista->cabeca = NULL;
+    lista->tamanho = 0;
+    return 1; // sucesso
+}

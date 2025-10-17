@@ -27,11 +27,10 @@ data calcularDataDevolucao();
 
 listaFilas *criarListaFilas(); // Função que cria a lista controladora de filas (1 por programa)
 
-int adicionarListaFilas(); // Função que adiciona uma fila para a lista controladora
+int adicionarListaFilas(listaFilas *lista, livro *livrop, filaUsuarios *filaP); // Função que adiciona uma fila para a lista controladora
 
-int removerListaFilas(); // Função que remove uma fila da lista controladora
 
-int deletarListaFilas(); // Função que deleta a controladora no fim da execucao do programa
+int deletarListaFilas(listaFilas *lista); // Função que deleta a controladora no fim da execucao do programa
 
 fila *veriFila(listaFilas *lista, livro *livrop);
 

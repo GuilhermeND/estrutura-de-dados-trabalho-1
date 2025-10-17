@@ -65,11 +65,36 @@ int adicionarListaFilas(listaFilas *lista, livro *livrop, filaUsuarios *filaP) {
     return 1; // Sucesso
 }
 
-// Função para remover uma fila da lista controladora
-int removerListaFilas();
+
 
 // Função para deletar a controladora no fim da execução do programa
-int deletarListaFilas();
+int deletarListaFilas(listaFilas *lista) {
+    if (!lista) return 0;
+
+    fila *atual = lista->filaCabeca;
+    while (atual != NULL) {
+        fila *proxFila = atual->proximo;
+
+        // Libera a fila de usuários
+        filaUsuarios *f = atual->fila;
+        if (f) {
+            fila_no *temp = f->cabeca;
+            for (int i = 0; i < f->tamanho && temp != NULL; i++) {
+                fila_no *prox = temp->proximo;
+                free(temp);
+                temp = prox;
+            }
+            free(f);
+        }
+
+        free(atual);
+        atual = proxFila;
+    }
+
+    lista->filaCabeca = NULL;
+    lista->tamanho = 0;
+    return 1;
+}
 
 // Função para verificar se existe a fila para aquele livro
 fila *veriFila(listaFilas *lista, livro *livrop){

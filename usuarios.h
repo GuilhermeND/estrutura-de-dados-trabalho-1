@@ -27,5 +27,6 @@ usuario* buscarUsuario(lista_usuario *lista, int matricula); // busca o ponteiro
 int removerUsuario(lista_usuario *lista, int matricula); // Remove um usuário da lista pela matrícula
 void imprimirLivrosEmprestados(lista_usuario *lista, int matricula); // Imprime os livros emprestados de um usuário pela matrícula
 void imprimirListaUsuarios(lista_usuario *lista); // Imprime a lista de usuários
+int deletarListaUsuarios(lista_usuario *lista);
 
 #endif // USUARIOS_H

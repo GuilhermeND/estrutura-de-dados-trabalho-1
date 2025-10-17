@@ -199,3 +199,19 @@ void imprimirListaUsuarios(lista_usuario *lista) {
         atual = atual->proximo;
     }
 }
+
+int deletarListaUsuarios(lista_usuario *lista) {
+    if (!lista) return 0; // lista nula
+
+    usuario *atual = lista->cabeca;
+    while (atual != NULL) {
+        usuario *prox = atual->proximo;
+        // os ponteiros em livros_emprestados NÃO são liberados aqui
+        free(atual);
+        atual = prox;
+    }
+
+    lista->cabeca = NULL;
+    lista->tamanho = 0;
+    return 1; // sucesso
+}
