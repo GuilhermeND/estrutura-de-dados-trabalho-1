@@ -227,7 +227,6 @@ int devolverLivro(listaFilas *listaFilasControl, lista_livro *listaLivro, lista_
     // 2. TENTA REMOVER O LIVRO DO USUÁRIO (Devolução do usuário atual)
     if (removerLivroDoUsuario(localUsuario, localNo)) { 
 
-        atualizarStatus(localNo);
         
         printf("Sucesso: Livro '%s' devolvido por %s.\n", localNo->titulo, localUsuario->nome);
 
@@ -242,8 +241,7 @@ int devolverLivro(listaFilas *listaFilasControl, lista_livro *listaLivro, lista_
                 usuario *proximo_user = buscarUsuario(listaUsuarios, matricula_proximo);
                 
                 if (proximo_user != NULL) {
-                    // (Disponível) -> 0 (Emprestado Novamente)
-                    atualizarStatus(localNo); 
+                    // (Disponível) -> 0 (Emprestado Novamente) 
                     
                     // Tenta registrar o empréstimo no array do novo usuário
                     int registro_sucesso = definirLivros(localNo, proximo_user); 
@@ -261,6 +259,7 @@ int devolverLivro(listaFilas *listaFilasControl, lista_livro *listaLivro, lista_
                 }
                 // Finaliza a transação e retorna o novo tamanho da fila
                 if (FilaEstaVazia(filaEndereco->fila)) {
+                    atualizarStatus(localNo);
                      return 1; // Sucesso na devolução e fila zerada 
                 }
                 return filaEndereco->fila->tamanho; // Retorna o novo tamanho da fila
