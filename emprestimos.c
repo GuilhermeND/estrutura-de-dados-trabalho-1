@@ -27,11 +27,13 @@ data calcularDataDevolucao() {
 //cria a lista controladora de filas (1 por programa)
 listaFilas *criarListaFilas(){
     listaFilas *lista = (listaFilas*) malloc(sizeof(listaFilas));
-    if(lista) return lista;
-    else{
-        printf("Erro ao alocar memória da Lista controladora");
+    if(lista == NULL) {
+        printf("Erro: Falha ao alocar memória da Lista controladora");
         return NULL;
     }
+    lista->filaCabeca = NULL;
+    lista->tamanho = 0;
+    return lista;
 }
 
 // Função para adicionar uma fila para a lista controladora
@@ -45,9 +47,12 @@ int deletarListaFilas();
 
 // Função para verificar se existe a fila para aquele livro
 fila *veriFila(listaFilas *lista, livro *livrop){
-    int i;
+    if (lista == NULL || lista->filaCabeca == NULL) {
+        return NULL; // A lista está vazia, não há filas para verificar
+    }
+
     fila *localNo = lista->filaCabeca;
-    for(i=0; i<lista->tamanho; i++){
+    while (localNo != NULL) {
         if(localNo->livro == livrop){
             return localNo;
         }
@@ -134,4 +139,30 @@ int devolverLivro(listaFilas *lista, lista_livro *listaLivro ,int isbnLivro, int
         }
     }
     return 0;
+}
+
+// Função para imprimir a fila de espera de um livro
+// trava o programa ao chamar essa função sem a fila existir
+int imprimirFilaEspera(listaFilas *lista, lista_livro *listaLivro, int codLivro) {
+    livro *book = buscarLivroPorCodigo(listaLivro, codLivro);
+
+    if (book == NULL) { 
+        printf("Erro: Livro com codigo %d nao foi encontrado.\n", codLivro);
+        return 0;
+    } 
+    
+    // 2. Procurar o nó da fila
+    fila *fila_node = veriFila(lista, book); 
+
+    // 3. Avisa se o nó da fila NÃO EXISTE
+    if (fila_node == NULL) {
+        printf("Erro: Nao ha fila de espera para o livro '%s' (Cod: %d) no momento.\n", book->titulo, codLivro);
+        return 1; // Sucesso: Livro existe, fila não existe.
+    }
+
+    // 4. Imprimir a Fila (SÓ ACONTECE SE FILA_NODE != NULL)
+    printf("Fila de espera para '%s' (Cod: %d):\n", book->titulo, codLivro);
+    imprimirFila(fila_node->fila); 
+
+    return 1;
 }

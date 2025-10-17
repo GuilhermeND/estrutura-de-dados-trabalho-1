@@ -20,7 +20,8 @@ int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lis
         printf("2.Devolver Livro\n");
         printf("3.Imprimir lista de livros\n");
         printf("4.Buscar informacoes do livro por nome\n");
-        printf("5.Voltar\n");
+        printf("5.Imprimir fila de espera de um livro\n");
+        printf("6.Voltar\n");
         printf("Opcao: ");
         
         result = scanf("%d", &escolha_livro);
@@ -43,7 +44,7 @@ int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lis
                 while (getchar() != '\n');
                 e = fazerEmprestimo(listaUsuario, listaControladora, listaLivros, userInCod, userInMat);
                 if(e == -1){
-                    printf("Erro ao emprestar!\n");
+                    printf("Erro: Falha ao emprestar!\n");
                     continue;
                 }else{
                     printf("Sucesso ao emprestar e a posicao na fila eh: %d\n", e);
@@ -104,8 +105,21 @@ int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lis
                     printf("-------------------------\n");
                 }
                 break;
-
             case 5:
+                if (listaLivroEstaVazia(listaLivros)){
+                    printf("Erro: A lista de livros esta vazia.\n");
+                    break;
+                }
+                printf("Insira o codigo do livro para ver a fila de espera: ");
+                scanf("%d", &userInCod);
+                while (getchar() != '\n');
+                printf("Fila de espera do livro %d:\n", userInCod);
+                // Imprimir a fila de espera
+                imprimirFilaEspera(listaControladora, listaLivros, userInCod);
+                printf("\n");
+                break;
+
+            case 6:
                 return 0;
             default:
                 printf("Escolha invalida!\n");
@@ -361,7 +375,7 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 while (getchar() != '\n');
                 e = removerLivro(listaLivros, cod);
                 if(e == 0){
-                    printf("Erro ao remover livro!");
+                    printf("Erro: Falha ao remover livro!");
                 }else{
                     printf("Removido com sucesso!\n");
                 }

@@ -18,6 +18,9 @@ filaUsuarios* criarListaFilaUsuarios() {
 
 // Função para verificar se a fila de espera está vazia
 int FilaEstaVazia(filaUsuarios *lista) {
+    if (lista == NULL) {
+        return 1; // A lista não foi inicializada, considera-se vazia
+    }
     return (lista->tamanho == 0); // Retorna 1 se estiver vazia e 0 se não estiver
 }
 
@@ -75,8 +78,13 @@ int removerFila(filaUsuarios *lista) {
 
 // Função para imprimir a fila
 void imprimirFila(filaUsuarios *lista) {
+    if (lista == NULL) {
+        printf("Erro: A estrutura da fila não foi inicializada.\n");
+        return;
+    }
+
     if (FilaEstaVazia(lista)) {
-        printf("A fila está vazia.\n");
+        printf("Erro: A fila está vazia.\n");
         return;
     }
 

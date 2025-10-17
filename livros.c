@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "livros.h"
-int cod = 1; // Variável para gerar códigos únicos para os livros
+static int cod = 1; // Variável para gerar códigos únicos para os livros
 
 // Funções para manipulação da lista de livros
 // Função para criar uma lista de livros
@@ -84,6 +84,11 @@ int removerLivro(lista_livro *lista, int cod) {
 
     if (atual == NULL) {
         return 0; // Livro não encontrado
+    }
+
+    if (atual->status == 0) {
+        printf("Erro: Nao e possivel remover um livro que esta emprestado.\n");
+        return 0; // Não é possível remover um livro que está emprestado
     }
 
     // Remove o livro da lista

@@ -55,4 +55,6 @@ int fazerEmprestimo(lista_usuario *listaUsuario, listaFilas *lista, lista_livro 
 
 int devolverLivro(listaFilas *lista, lista_livro *listaLivro ,int codLivro, int matricula);
 
+int imprimirFilaEspera(listaFilas *lista, lista_livro *listaLivro, int codLivro);
+
 #endif // EMPRESTIMOS_H
