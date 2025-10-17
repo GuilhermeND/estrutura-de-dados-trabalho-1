@@ -213,9 +213,11 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
         printf("--------------ADMNISTRATIVO----------------\n");
         printf("1.Adicionar um usuario\n");
         printf("2.Adicionar um livro\n");
-        printf("3.Remover um usuario\n");
-        printf("4.Remover um livro\n");
-        printf("5.Voltar\n");
+        printf("3.Listar usuarios\n");
+        printf("4.Listar livros\n");
+        printf("5.Remover um usuario\n");
+        printf("6.Remover um livro\n");
+        printf("7.Voltar\n");
         printf("Opcao: ");
 
         result = scanf("%d", &escolha_ADM);
@@ -259,8 +261,7 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 inserirUsuario(listaUsuarios, nome, matricula, cargo);
                 break;
             
-            case 2:
-
+            case 2:  
                 printf("Escreve o titulo do livro: ");
                 fgets(titulo, sizeof(titulo), stdin);
                 if (!strchr(titulo, '\n')) {
@@ -284,6 +285,14 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 break;
 
             case 3:
+                imprimirListaUsuarios(listaUsuarios);
+                break;
+
+            case 4:
+                imprimirListaInfo(listaLivros);
+                break;
+
+            case 5:
                 printf("Escreva a matricula do usuario que deseja remover: ");
                 result = scanf("%d", &matricula);
                 if(result != 1){
@@ -300,7 +309,7 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 }
                 break;
 
-            case 4:
+            case 6:
                 printf("Escreva o codigo do livro que deseja remover: ");
                 result = scanf("%d", &cod);
                 if(result != 1){
@@ -317,7 +326,7 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 }
                 break;
 
-            case 5:
+            case 7:
                 return 0;    
             default:
                 break;

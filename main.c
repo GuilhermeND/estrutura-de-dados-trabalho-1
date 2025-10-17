@@ -40,10 +40,10 @@ int main(){
 
             case 0:
                 printf("Encerrando o programa.\n");
-                break;
+                return 0;
 
             default:
-                printf("Erro: Escolha inválida!\n");
+                printf("Erro: Escolha invalida!\n");
                 break;
         }
     }

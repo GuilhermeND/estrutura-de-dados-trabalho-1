@@ -132,7 +132,7 @@ livro* buscarLivroPorCodigo(lista_livro *lista, int cod) {
 // Função para imprimir as informações de todos os livros na lista
 void imprimirListaInfo(lista_livro *lista) {
     if (listaLivroEstaVazia(lista)) {
-        printf("A lista de livros esta vazia.\n");
+        printf("Erro: A lista de livros esta vazia.\n");
         return;
     }
 
