@@ -16,17 +16,17 @@ int main(){
     printf("--- Inicializando dados para teste ---\n");
 
     // USUÁRIOS: (Nome, Matrícula, Tipo: 0=Estudante, 1=Professor)
-    if (inserirUsuario(listaUsuarios, "eduardo", 13, 0)) {
-        printf("Usuario: Eduardo (13) adicionado.\n");
+    if (inserirUsuario(listaUsuarios, "eduardo", 10, 0)) {
+        printf("Usuario: Eduardo (10) adicionado.\n");
     }
-    if (inserirUsuario(listaUsuarios, "guilherme", 15, 1)) {
-        printf("Usuario: Guilherme (15) adicionado.\n");
+    if (inserirUsuario(listaUsuarios, "guilherme", 20, 0)) {
+        printf("Usuario: Guilherme (20) adicionado.\n");
     }
-    if (inserirUsuario(listaUsuarios, "helcio", 20, 1)) {
-        printf("Usuario: Helcio (20) adicionado.\n");
+    if (inserirUsuario(listaUsuarios, "ana", 30, 0)) {
+        printf("Usuario: Ana (30) adicionado.\n");
     }
-    if (inserirUsuario(listaUsuarios, "amanda", 25, 0)) {
-        printf("Usuario: Amanda (25) adicionado.\n");
+    if (inserirUsuario(listaUsuarios, "helcio", 40, 1)) {
+        printf("Usuario: Helcio (40) adicionado.\n");
     }
 
     // LIVROS: (Título, Editora, Autor)

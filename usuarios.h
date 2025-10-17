@@ -1,3 +1,4 @@
+// Feito por Guilherme
 #ifndef USUARIOS_H
 #define USUARIOS_H
 #include "livros.h"
@@ -28,5 +29,6 @@ int removerUsuario(lista_usuario *lista, int matricula); // Remove um usuário d
 void imprimirLivrosEmprestados(lista_usuario *lista, int matricula); // Imprime os livros emprestados de um usuário pela matrícula
 void imprimirListaUsuarios(lista_usuario *lista); // Imprime a lista de usuários
 int deletarListaUsuarios(lista_usuario *lista);
+int buscarSlotVazio(usuario *usuariop); // Retorna o índice disponível (0 ou 1) ou -1 se cheio.
 
 #endif // USUARIOS_H

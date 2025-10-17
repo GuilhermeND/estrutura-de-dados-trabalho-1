@@ -79,12 +79,12 @@ int removerFila(filaUsuarios *lista) {
 // Função para imprimir a fila
 void imprimirFila(filaUsuarios *lista) {
     if (lista == NULL) {
-        printf("Erro: A estrutura da fila não foi inicializada.\n");
+        printf("Erro: A estrutura da fila nao foi inicializada.\n");
         return;
     }
 
     if (FilaEstaVazia(lista)) {
-        printf("Erro: A fila está vazia.\n");
+        printf("Erro: A fila esta vazia.\n");
         return;
     }
 

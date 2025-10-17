@@ -215,3 +215,20 @@ int deletarListaUsuarios(lista_usuario *lista) {
     lista->tamanho = 0;
     return 1; // sucesso
 }
+
+// Função para buscar um slot vazio no array de livros emprestados do usuário
+int buscarSlotVazio(usuario *usuariop) {
+    if (usuariop == NULL) {
+        return -1; // Usuário nulo não tem slots
+    }
+
+    // O array tem tamanho fixo de 2 (índices 0 e 1)
+    for (int i = 0; i < 2; i++) {
+        // Um slot está vazio se o ponteiro para o livro for NULL
+        if (usuariop->livros_emprestados[i] == NULL) {
+            return i; // Retorna o índice do slot vazio (0 ou 1)
+        }
+    }
+    // Se o loop terminou e nenhum slot foi encontrado, ambos estão ocupados
+    return -1; // Indica que o limite de 2 livros foi atingido
+}

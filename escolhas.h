@@ -1,3 +1,4 @@
+// Feito por Guilherme
 #ifndef ESCOLHAS_H
 #define ESCOLHAS_H
 

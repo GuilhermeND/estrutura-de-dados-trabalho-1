@@ -177,26 +177,29 @@ int fazerEmprestimo(lista_usuario *listaUsuarios, listaFilas *listaControl, list
         return 0;
     }
 
-     // Verifica se o usuário pode pegar mais um livro
-    int pode_definir = definirLivros(localNo, localUsuario); 
+    int slot = buscarSlotVazio(localUsuario); 
     
-    if (pode_definir == 0) {
-        printf("Erro: Usuario %s ja possui 2 livros emprestados (Limite atingido).\n", localUsuario->nome);
-        return 0; // Falha (Limite do usuário)
+    if (slot == -1) {
+        printf("Erro: Usuario %s ja atingiu o limite de 2 livros emprestados (Limite atingido).\n", localUsuario->nome);
+        return 0; // Falha
     }
-    // Verifica se o livro está disponível
+    
     if (localNo->status == 1) { 
-        // REGISTRO BEM SUCEDIDO (a função definirLivros já registrou a data e o ponteiro)
-        localNo->status = 0; // Marca o livro como emprestado
-        data dataDevolucao = calcularDataDevolucao(); // Calcula novamente (apenas para a impressão)
+        data dataDevolucao = calcularDataDevolucao();
+        // REGISTRO DE SUCESSO: Atualiza o status e os arrays do usuário
+        localNo->status = 0; // Marca o livro como emprestado (Status 0)
+        // Registro na struct do usuário (usando o slot que foi encontrado)
+        localUsuario->livros_emprestados[slot] = localNo;
+        strcpy(localUsuario->data_devolucao[slot], dataDevolucao.dataHoje);
+        // Mensagem de Sucesso
         printf("Livro '%s' emprestado para %s. Devolucao: %s\n", localNo->titulo, localUsuario->nome, dataDevolucao.dataHoje);
-        return 1; // Sucesso no emprestimo
-    } else {
+        return 1; // Sucesso no empréstimo (Código 1)
+    } else { // 4. LIVRO INDISPONÍVEL (Status = 0): Adiciona à Fila
         // Chama a lógica de fila (colocaFila)
         int pos_fila = colocaFila(matricula, localNo, listaControl);
         
         if (pos_fila > 0) { 
-            // Usa retorno negativo para indicar que foi para a fila
+            // Positivo significa posição na fila (SUCESSO)
             printf("Livro indisponivel. %s adicionado a fila na posicao %d.\n", localUsuario->nome, pos_fila);
             return -pos_fila; // Retorna NEGATIVO (Ex: -1, -2, etc.)
         } else {
@@ -208,6 +211,7 @@ int fazerEmprestimo(lista_usuario *listaUsuarios, listaFilas *listaControl, list
 
 // Função de devolucao de livro, lida com o caso de precisar deletar a lista se so existe uma pessoa esperando e caso ha mais de uma pessoa na fila.
 int devolverLivro(listaFilas *listaFilasControl, lista_livro *listaLivro, lista_usuario *listaUsuarios, int codLivro, int matricula) {
+    // 1. BUSCA DE REGISTROS
     usuario *localUsuario = buscarUsuario(listaUsuarios, matricula);
     livro *localNo = buscarLivroPorCodigo(listaLivro, codLivro);
 
@@ -220,51 +224,54 @@ int devolverLivro(listaFilas *listaFilasControl, lista_livro *listaLivro, lista_
         return 0;
     }
     
-    // Tenta Remover o Livro do Usuário
+    // 2. TENTA REMOVER O LIVRO DO USUÁRIO (Devolução do usuário atual)
     if (removerLivroDoUsuario(localUsuario, localNo)) { 
-        // Reverte o Status do Livro e Mensagem de Sucesso
-        atualizarStatus(localNo); // Muda status para Disponível (1)
+
+        atualizarStatus(localNo);
+        
         printf("Sucesso: Livro '%s' devolvido por %s.\n", localNo->titulo, localUsuario->nome);
 
-        // Checa e Processa a Fila de Espera
         fila *filaEndereco = veriFila(listaFilasControl, localNo);
-
+        
         if (filaEndereco != NULL) { // Se a fila existe
-            // Remove o primeiro usuário da fila (FIFO)
-            int matricula_proximo = removerFila(filaEndereco->fila);
-            usuario *proximo_user = buscarUsuario(listaUsuarios, matricula_proximo); 
+            int matricula_proximo = removerFila(filaEndereco->fila); 
             
-            if (proximo_user != NULL) {   
-                atualizarStatus(localNo); // Marca o livro como emprestado novamente
-                int registro_sucesso = definirLivros(localNo, proximo_user);
+            if (matricula_proximo > 0) {
 
-                if (registro_sucesso) {
-                    data dataDevolucao = calcularDataDevolucao(); 
-                        
-                    printf("Aviso: Emprestimo automatico concluido para %s (Matricula: %d).\n", proximo_user->nome, matricula_proximo);
-                    printf("Nova Devolucao: %s\n", dataDevolucao.dataHoje); 
-                } else {
-                    // Caso de falha no registro (ex: usuário na fila atingiu o limite de livros por algum motivo)
-                    printf("Aviso: Usuario %d da fila atingiu o limite de livros! O livro permanece emprestado (Status=0).\n", matricula_proximo);
-                    // NOTA: Se isso acontecer, o livro permanece emprestado, mas não está registrado para o usuário.
-                    // O sistema deve ser projetado para que o próximo usuário seja retirado manualmente da fila de empréstimos (lógica avançada).
+                printf("Aviso: Usuario %d da fila foi selecionado para o emprestimo.\n", matricula_proximo);
+                usuario *proximo_user = buscarUsuario(listaUsuarios, matricula_proximo);
+                
+                if (proximo_user != NULL) {
+                    // (Disponível) -> 0 (Emprestado Novamente)
+                    atualizarStatus(localNo); 
+                    
+                    // Tenta registrar o empréstimo no array do novo usuário
+                    int registro_sucesso = definirLivros(localNo, proximo_user); 
+                    
+                    if (registro_sucesso) {
+                        data dataDevolucao = calcularDataDevolucao();  
+                        printf("Aviso: Emprestimo automatico concluido para %s (Matricula: %d).\n", proximo_user->nome, matricula_proximo);
+                        printf("Nova Devolucao: %s\n", dataDevolucao.dataHoje);
+                    } else {
+                        // Se falhou (limite atingido no próximo usuário), o status está 0, o que é incorreto
+                        // REVERTER O STATUS (0 -> 1) E AVISAR QUE O LIVRO ESTÁ DISPONÍVEL
+                        atualizarStatus(localNo);
+                        printf("Aviso: Usuario %d da fila atingiu o limite de livros!.\n", matricula_proximo);
+                    }
                 }
-            // 6. Finaliza a transação e retorna o novo tamanho da fila
+                // Finaliza a transação e retorna o novo tamanho da fila
                 if (FilaEstaVazia(filaEndereco->fila)) {
-                    // Aqui você chamaria removerListaFilas se a fila esvaziou (lógica a ser implementada)
-                    return 1; // Sucesso na devolução e fila zerada                
+                     return 1; // Sucesso na devolução e fila zerada 
                 }
                 return filaEndereco->fila->tamanho; // Retorna o novo tamanho da fila
             }
-        }
-
-        // 7. Se não havia fila ou a fila estava vazia
+        } 
+        
+        // Se não havia fila ou a fila estava vazia
         return 1; // Código 1 para sucesso na devolução (sem fila)
     }
-
-    // 8. Falha: Livro não estava emprestado para este usuário
-    // Essa mensagem só é exibida se removerLivroDoUsuario retornar 0.
-    printf ("Erro: Livro '%s' nao estava registrado como emprestado para %s.\n", localNo->titulo, localUsuario->nome);
+    
+    printf("Erro: Livro '%s' não estava registrado como emprestado para %s.\n", localNo->titulo, localUsuario->nome);
     return 0;
 }
 

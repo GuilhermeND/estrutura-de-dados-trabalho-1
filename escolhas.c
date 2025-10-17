@@ -179,8 +179,6 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                     }else{
                         printf(" Tipo: Professor\n");
                     }
-                    //printf("Livros emprestados: \n");
-                    //printf("Data devolucao: \n"); //FALTA FAZER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 }
                 break;
 
@@ -194,6 +192,7 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                 if(result != 1){
                     printf("Erro: Valor invalido tente novamente!\n");
                     while (getchar() != '\n');
+                    continue;
                 }
                 imprimirLivrosEmprestados(listaUsuarios, userIn); 
                 break;

@@ -29,7 +29,6 @@ listaFilas *criarListaFilas(); // Função que cria a lista controladora de fila
 
 int adicionarListaFilas(listaFilas *lista, livro *livrop, filaUsuarios *filaP); // Função que adiciona uma fila para a lista controladora
 
-
 int deletarListaFilas(listaFilas *lista); // Função que deleta a controladora no fim da execucao do programa
 
 fila *veriFila(listaFilas *lista, livro *livrop);
