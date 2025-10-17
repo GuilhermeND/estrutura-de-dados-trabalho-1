@@ -1,4 +1,4 @@
-// Feito por Guilherme
+//Por Guilherme
 #ifndef ESCOLHAS_H
 #define ESCOLHAS_H
 

@@ -1,3 +1,4 @@
+//Por Guilherme e Eduardo
 #include<stdio.h>
 #include "escolhas.h"
 #include "livros.h"

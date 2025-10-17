@@ -1,4 +1,4 @@
-
+//Por: Guilherme
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -208,6 +208,9 @@ int fazerEmprestimo(lista_usuario *listaUsuarios, listaFilas *listaControl, list
         }
     }
 }
+
+
+//-----------------------------Por:Eduardo----------------------------------------------------
 
 // Função de devolucao de livro, lida com o caso de precisar deletar a lista se so existe uma pessoa esperando e caso ha mais de uma pessoa na fila.
 int devolverLivro(listaFilas *listaFilasControl, lista_livro *listaLivro, lista_usuario *listaUsuarios, int codLivro, int matricula) {
