@@ -262,6 +262,7 @@ int devolverLivro(listaFilas *listaFilasControl, lista_livro *listaLivro, lista_
                 }
                 // Finaliza a transação e retorna o novo tamanho da fila
                 if (FilaEstaVazia(filaEndereco->fila)) {
+                    atualizarStatus(localNo);
                      return -2; // Sucesso na devolução e fila zerada 
                 }
                 return filaEndereco->fila->tamanho; // Retorna o novo tamanho da fila

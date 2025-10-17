@@ -5,6 +5,8 @@
 #include "lista.h"
 
 // Funções para manipulação da lista circular (fila de espera)
+
+
 // Função para criar uma lista circular
 filaUsuarios* criarListaFilaUsuarios() {
     filaUsuarios *f = (filaUsuarios*) malloc(sizeof(filaUsuarios)); // Aloca memória para a lista

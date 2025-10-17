@@ -77,7 +77,7 @@ int escolhaLivro(lista_usuario *listaUsuarios, listaFilas *listaControladora, li
                 }else if(e == -1){
                     printf("Sucesso ao devolver e o livro esta sem fila no momento!\n");
                 }else if(e != -2 && livroTemp->status == 1){
-                    livroTemp->status = 0;
+                    livroTemp->status = 1;
                 }else{
                     printf("Sucesso ao devolver!");
                 }
