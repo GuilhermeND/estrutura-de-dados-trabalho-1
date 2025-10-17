@@ -54,6 +54,7 @@ int inserirFila(filaUsuarios *lista, int matricula) {
 
 // Função para remover o usuário no início da fila
 int removerFila(filaUsuarios *lista) {
+    fila_no *notemp;
     if (FilaEstaVazia(lista)) {
         return 0; // A lista está vazia, não há nós para remover
     }
@@ -69,10 +70,11 @@ int removerFila(filaUsuarios *lista) {
         lista->pe->proximo = lista->cabeca; // O próximo do último nó aponta para a nova cabeça
         lista->cabeca->anterior = lista->pe; // O anterior da nova cabeça aponta para o último nó
     }
-
-    return noRemovido->matricula; // Sucesso
-    free(noRemovido); // Libera a memória do nó removido
-    lista->tamanho--; // Decrementa o tamanho da lista
+    notemp = noRemovido;
+    free(noRemovido);
+    lista->tamanho--;
+    if(noRemovido) return noRemovido->matricula; // Sucesso
+    else return 0;
 }
 
 // Função para imprimir a fila
