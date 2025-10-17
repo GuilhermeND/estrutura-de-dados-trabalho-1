@@ -43,5 +43,5 @@ Caso deseje modificar o código-fonte, recompile utilizando o **GCC**:
 gcc main.c lista.c livros.c usuarios.c emprestimos.c escolhas.c -o main
 ```
 
-Guilherme Gemniczak Da Rocha	GRR20246173
-Eduardo Almeida Freitas da Silva Miranda	GRR20235363
+- Guilherme Gemniczak Da Rocha	GRR20246173
+- Eduardo Almeida Freitas da Silva Miranda	GRR20235363
