@@ -11,38 +11,6 @@ int main(){
     lista_livro *listaLivros = criarListaLivro();
     lista_usuario *listaUsuarios = criarListaUsuario();
 
-    // ========================================================
-    // INFORMAÇÕES PARA TESTES (4 Usuários e 3 Livros)
-    // ========================================================
-    printf("--- Inicializando dados para teste ---\n");
-
-    // USUÁRIOS: (Nome, Matrícula, Tipo: 0=Estudante, 1=Professor)
-    if (inserirUsuario(listaUsuarios, "eduardo", 10, 0)) {
-        printf("Usuario: Eduardo (10) adicionado.\n");
-    }
-    if (inserirUsuario(listaUsuarios, "guilherme", 20, 0)) {
-        printf("Usuario: Guilherme (20) adicionado.\n");
-    }
-    if (inserirUsuario(listaUsuarios, "ana", 30, 0)) {
-        printf("Usuario: Ana (30) adicionado.\n");
-    }
-    if (inserirUsuario(listaUsuarios, "helcio", 40, 1)) {
-        printf("Usuario: Helcio (40) adicionado.\n");
-    }
-
-    // LIVROS: (Título, Editora, Autor)
-    if (inserirLivro(listaLivros, "ed", "Prentice Hall", "Weiss")) {
-        printf("Livro: ed adicionado.\n");
-    }
-    if (inserirLivro(listaLivros, "teste", "Saraiva", "Manzano")) {
-        printf("Livro: teste adicionado.\n");
-    }
-    if (inserirLivro(listaLivros, "aula", "UFPR Press", "Professor X")) {
-        printf("Livro: Aula adicionado.\n");
-    }
-    printf("--- Dados iniciais carregados. ---\n\n");
-    // ========================================================
-    
     int escolha;
     int result;
     while(1) {
