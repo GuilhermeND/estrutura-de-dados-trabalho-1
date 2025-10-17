@@ -59,7 +59,6 @@ int removerFila(filaUsuarios *lista) {
     }
 
     fila_no *noRemovido = lista->cabeca; // Nó a ser removido é a cabeça da lista
-
     if (lista->tamanho == 1) {
         // Se houver apenas um nó na lista, a lista ficará vazia após a remoção
         lista->cabeca = NULL;
@@ -71,9 +70,9 @@ int removerFila(filaUsuarios *lista) {
         lista->cabeca->anterior = lista->pe; // O anterior da nova cabeça aponta para o último nó
     }
 
+    return noRemovido->matricula; // Sucesso
     free(noRemovido); // Libera a memória do nó removido
     lista->tamanho--; // Decrementa o tamanho da lista
-    return lista->cabeca->matricula; // Sucesso
 }
 
 // Função para imprimir a fila

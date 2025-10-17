@@ -73,7 +73,7 @@ int escolhaLivro(lista_usuario *listaUsuarios, listaFilas *listaControladora, li
                 }else if(e == -1){
                     printf("Sucesso ao devolver e o livro esta sem fila no momento!\n");
                 }else{
-                    printf("Sucesso ao devolver. Tamanho restante da fila desse livro: %d\n", e);
+                    printf("Sucesso ao devolver!");
                 }
                 break;
             case 3:
