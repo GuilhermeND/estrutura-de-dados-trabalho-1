@@ -34,6 +34,13 @@ int inserirUsuario(lista_usuario *lista, char nome[50], int matricula, int cargo
     novoUsuario->tipo = cargo; // 0 = estudante, 1 = professor
     novoUsuario->proximo = NULL; // O próximo do novo usuário é NULL, pois o atual será o último da lista
 
+    // Verifica se já existe um usuário com a mesma matrícula
+    usuario *usuarioRepetido = buscarUsuario(lista, matricula);
+    if (usuarioRepetido != NULL) {
+        free(novoUsuario); // Libera a memória do novo usuário
+        return 0; // Usuário já existe
+    }
+
     // Inicializa os arrays de livros emprestados e datas de devolução como strings vazias
     for (int i = 0; i < 2; i++) {
         novoUsuario->livros_emprestados[i] = NULL; 
@@ -166,7 +173,7 @@ void imprimirListaUsuarios(lista_usuario *lista) {
 
     usuario *atual = lista->cabeca; // Ponteiro para percorrer a lista
 
-    printf("--- Lista de Usuarios ---\n");
+    printf("----- Lista de Usuarios -----\n");
     while (atual != NULL) {
         printf("Nome: %s, Matricula: %d, Tipo: %s\n", 
                atual->nome, 

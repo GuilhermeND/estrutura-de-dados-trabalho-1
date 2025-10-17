@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "livros.h"
+int cod = 1; // Variável para gerar códigos únicos para os livros
 
 // Funções para manipulação da lista de livros
 // Função para criar uma lista de livros
@@ -33,7 +34,7 @@ int inserirLivro(lista_livro *lista, char titulo[100], char editora[50], char au
     strcpy(novoLivro->editora, editora);
     strcpy (novoLivro->autor, autor);
     novoLivro->status = 1; // Um livro novo sempre está disponível
-    novoLivro->cod = lista->tamanho + 1; // Atribui um código sequencial
+    novoLivro->cod = cod++; // Atribui o código único e incrementa para o próximo livro
     novoLivro->proximo = NULL; // O próximo do novo livro é NULL, pois o atual será o último da lista
 
     // Verifica se já existe um livro com o mesmo título
@@ -138,13 +139,14 @@ void imprimirListaInfo(lista_livro *lista) {
 
     livro *atual = lista->cabeca; // Ponteiro para percorrer a lista
 
+        printf("----- Lista de Livros -----\n");
     // Percorre a lista e imprime as informações de cada livro
     while (atual != NULL) {
         printf("Titulo: %s\n", atual->titulo);
-        printf("Editora: %s\n", atual->editora);
+        printf("\nEditora: %s\n", atual->editora);
         printf("Autor: %s\n", atual->autor);
-        printf("Status: %s\n", (atual->status == 1) ? "Disponivel" : "Emprestado");
         printf("Codigo: %d\n", atual->cod);
+        printf("\nStatus: %s\n", (atual->status == 1) ? "Disponivel" : "Emprestado");
         printf("-------------------------\n");
         atual = atual->proximo;
     }

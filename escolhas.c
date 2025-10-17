@@ -20,8 +20,7 @@ int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lis
         printf("2.Devolver Livro\n");
         printf("3.Imprimir lista de livros\n");
         printf("4.Buscar informacoes do livro por nome\n");
-        printf("5.Imprimir disponibilidade de um livro\n");
-        printf("6.Voltar\n");
+        printf("5.Voltar\n");
         printf("Opcao: ");
         
         result = scanf("%d", &escolha_livro);
@@ -47,7 +46,7 @@ int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lis
                     printf("Erro ao emprestar!\n");
                     continue;
                 }else{
-                    printf("Sucesso ao emprestar e a posição na fila é: %d\n", e);
+                    printf("Sucesso ao emprestar e a posicao na fila eh: %d\n", e);
                 }
                 break;
             case 2:
@@ -88,29 +87,25 @@ int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lis
                 }
                 userIn[strcspn(userIn, "\n")] = '\0';
                 livroBusca = buscarLivroPorTitulo(listaLivros, userIn);
-                printf("Titulo: %s\n Autor: %s\n Editora: %s\n Status: %d\n", livroBusca->titulo, livroBusca->autor, livroBusca->editora, livroBusca->status);
-
-                break;
-            case 5:
-                if (listaLivroEstaVazia(listaLivros)){
-                    printf("Erro: A lista de livros esta vazia.\n");
-                    break;
-                }
-                printf("Escreva o nome do livro que deseja procurar: ");
-                result = scanf("%d", &userIn);
-                if(result != 1){
-                    printf("Erro: Valor invalido tente novamente!\n");
-                    while (getchar() != '\n');
-                }
-                livroBusca = buscarLivroPorCodigo(listaLivros, userInCod);
-                if(livroBusca->status){
-                    printf("O livro esta disponivel");
+                if(!livroBusca){
+                    printf("Livro nao encontrado!\n");
+                    continue;
                 }else{
-                    printf("O livro nao esta disponivel");
+                    printf("----- Informacoes do Livro -----\n");
+                    printf(" Titulo: %s\n", livroBusca->titulo);
+                    printf("\n Editora: %s\n", livroBusca->editora);
+                    printf(" Autor: %s\n", livroBusca->autor);
+                    printf(" Codigo: %d\n", livroBusca->cod);
+                    if(livroBusca->status == 1){
+                        printf("\n Status: Disponivel\n");
+                    }else{
+                        printf("\n Status: Emprestado\n");
+                    }
+                    printf("-------------------------\n");
                 }
                 break;
 
-            case 6:
+            case 5:
                 return 0;
             default:
                 printf("Escolha invalida!\n");
@@ -156,16 +151,17 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                 }
                 localUser = buscarUsuario(listaUsuarios, userIn);
                 if(!localUser){
-                    printf("Lista vazia ou usuario nao encontrado!\n");
+                    printf("Erro:Lista vazia ou usuario nao encontrado!\n");
                     continue;
                 }else{
-                    printf("Nome: %s\n Matricula: %d\n", localUser->nome, localUser->matricula);
+                    printf(" Nome: %s\n Matricula: %d\n", localUser->nome, localUser->matricula);
                     if(localUser->tipo == 0){
-                        printf("Tipo: Estudante");
+                        printf(" Tipo: Estudante\n");
                     }else{
-                        printf("Tipo: Professor");
+                        printf(" Tipo: Professor\n");
                     }
-                    printf("Data devolucao: "); //FALTA FAZER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //printf("Livros emprestados: \n");
+                    //printf("Data devolucao: \n"); //FALTA FAZER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 }
                 break;
 
@@ -197,7 +193,7 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                 userName[strcspn(userName, "\n")] = '\0';
                 e = buscarMatricula(listaUsuarios, userName);
                 if(!e){
-                    printf("Usuario nao encontrado ou fila vazia!");
+                    printf("Usuario nao encontrado ou fila vazia!\n");
                     continue;
                 }
                 break;
@@ -286,7 +282,12 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                     
                     printf("Valor de cargo invalido, tente novamente!\n");
                 }
-                inserirUsuario(listaUsuarios, nome, matricula, cargo);
+                // deve tentar inserir e verificar se deu certo e avisar o usuario
+                if (inserirUsuario(listaUsuarios, nome, matricula, cargo)) {
+                    printf("Usuario adicionado com sucesso!\n");
+                } else {
+                    printf("Erro: Matricula ja cadastrada ou falha ao adicionar!\n");
+                }
                 break;
             
             case 2:  
@@ -309,7 +310,11 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                     int c;
                     while ((c = getchar()) != '\n' && c != EOF);
                 }
-                inserirLivro(listaLivros, titulo, editora, autor);
+                if (inserirLivro(listaLivros, titulo, editora, autor)) {
+                    printf("Livro adicionado com sucesso!\n");
+                } else {
+                    printf("Erro: Livro ja existe ou falha ao adicionar!\n");
+                }
                 break;
 
             case 3:
@@ -335,7 +340,7 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 while (getchar() != '\n');
                 e = removerUsuario(listaUsuarios, matricula);
                 if(e == 0){
-                    printf("Erro ao remover usuario!");
+                    printf("Erro: Falha ao remover usuario!\n");
                 }else{
                     printf("Removido com sucesso!\n");
                 }
