@@ -32,6 +32,10 @@ int escolhaLivro(listaFilas *listaControladora, lista_livro *listaLivros){
         }
         switch (escolha_livro){
             case 1:
+                if (listaLivroEstaVazia(listaLivros)){
+                    printf("Erro: A lista de livros esta vazia.\n");
+                    break;
+                }
                 printf("Insira o codigo do livro a ser emprestado: ");
                 scanf("%d", &userInCod);
                 while (getchar() != '\n');
@@ -47,6 +51,10 @@ int escolhaLivro(listaFilas *listaControladora, lista_livro *listaLivros){
                 }
                 break;
             case 2:
+                if (listaLivroEstaVazia(listaLivros)){
+                    printf("Erro: A lista de livros esta vazia.\n");
+                    break;
+                }
                 printf("Insira o codigo do livro a ser devolvido: ");
                 scanf("%d", &userInCod);
                 while (getchar() != '\n');
@@ -67,6 +75,10 @@ int escolhaLivro(listaFilas *listaControladora, lista_livro *listaLivros){
                 imprimirListaInfo(listaLivros);
                 break;
             case 4:
+                if (listaLivroEstaVazia(listaLivros)){
+                    printf("Erro: A lista de livros esta vazia.\n");
+                    break;
+                }
                 printf("Escreva o nome do livro que deseja procurar: ");
                 while (getchar() != '\n');
                 fgets(userIn, sizeof(userIn), stdin);
@@ -80,6 +92,10 @@ int escolhaLivro(listaFilas *listaControladora, lista_livro *listaLivros){
 
                 break;
             case 5:
+                if (listaLivroEstaVazia(listaLivros)){
+                    printf("Erro: A lista de livros esta vazia.\n");
+                    break;
+                }
                 printf("Escreva o nome do livro que deseja procurar: ");
                 result = scanf("%d", &userIn);
                 if(result != 1){
@@ -97,7 +113,7 @@ int escolhaLivro(listaFilas *listaControladora, lista_livro *listaLivros){
             case 6:
                 return 0;
             default:
-                printf("Valor Inválido!");
+                printf("Escolha invalida!\n");
                 break;
         }
     }
@@ -128,6 +144,10 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
         
         switch (escolha_Usuario){
             case 1:
+                if (listaUsuarioEstaVazia(listaUsuarios)){
+                    printf("Erro: A lista de usuarios esta vazia!\n");
+                    break;
+                }
                 printf("Escreva a matricula do usuario: ");
                 result = scanf("%d", &userIn);
                 if(result != 1){
@@ -150,6 +170,10 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                 break;
 
             case 2:
+                if (listaUsuarioEstaVazia(listaUsuarios)) {
+                    printf("Erro: A lista de usuarios esta vazia!\n");
+                    break;
+                }
                 printf("Escreva a matricula do usuario: ");
                 result = scanf("%d", &userIn);
                 if(result != 1){
@@ -159,6 +183,10 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                 break;
 
             case 3:
+                if (listaUsuarioEstaVazia(listaUsuarios)){
+                    printf("Erro: A lista de usuarios esta vazia!\n");
+                    break;
+                }
                 printf("Escreva o nome do usuario(precisa ser o nome exato):  ");
                 while (getchar() != '\n');
                 fgets(userName, sizeof(userName), stdin);
@@ -293,6 +321,10 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 break;
 
             case 5:
+                if (listaUsuarioEstaVazia(listaUsuarios)){
+                    printf("Erro: A lista de usuarios esta vazia!\n");
+                    break;
+                }
                 printf("Escreva a matricula do usuario que deseja remover: ");
                 result = scanf("%d", &matricula);
                 if(result != 1){
@@ -310,6 +342,10 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
                 break;
 
             case 6:
+                if (listaLivroEstaVazia(listaLivros)){
+                    printf("Erro: A lista de livros esta vazia!\n");
+                    break;
+                }
                 printf("Escreva o codigo do livro que deseja remover: ");
                 result = scanf("%d", &cod);
                 if(result != 1){
@@ -329,6 +365,7 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
             case 7:
                 return 0;    
             default:
+                printf("Escolha invalida!\n");
                 break;
         }
     }
