@@ -1,4 +1,4 @@
-//as funcoes ainda estao imcompletas, falta algumas dependencias ainda!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -257,11 +257,9 @@ int devolverLivro(listaFilas *listaFilasControl, lista_livro *listaLivro, lista_
                         printf("Aviso: Usuario %d da fila atingiu o limite de livros!.\n", matricula_proximo);
                     }
                 }
-                printf("------------------------------%d---------------------",filaEndereco->fila->tamanho);
                 // Finaliza a transação e retorna o novo tamanho da fila
                 if (FilaEstaVazia(filaEndereco->fila)) {
-                    atualizarStatus(localNo);
-                     return 1; // Sucesso na devolução e fila zerada 
+                     return -2; // Sucesso na devolução e fila zerada 
                 }
                 return filaEndereco->fila->tamanho; // Retorna o novo tamanho da fila
             }

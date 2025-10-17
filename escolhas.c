@@ -13,6 +13,7 @@ int escolhaLivro(lista_usuario *listaUsuarios, listaFilas *listaControladora, li
     int userInMat;
     livro *livroBusca;
     int result;
+    livro *livroTemp;
     int e;
     while(1){
         printf("\n");
@@ -66,12 +67,15 @@ int escolhaLivro(lista_usuario *listaUsuarios, listaFilas *listaControladora, li
                 printf("Insira o codigo da matricula de quem vai devolver: ");
                 scanf("%d", &userInMat);
                 while (getchar() != '\n');
+                livroTemp = buscarLivroPorCodigo(listaLivros, userInCod);
                 e = devolverLivro(listaControladora, listaLivros, listaUsuarios, userInCod, userInMat);
                 if(e == 0){
                     printf("Erro ao devolver\n");
                     continue;
                 }else if(e == -1){
                     printf("Sucesso ao devolver e o livro esta sem fila no momento!\n");
+                }else if(e != -2 && livroTemp->status == 1){
+                    livroTemp->status = 0;
                 }else{
                     printf("Sucesso ao devolver!");
                 }
