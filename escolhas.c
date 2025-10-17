@@ -15,6 +15,7 @@ int escolhaLivro(lista_usuario *listaUsuarios, listaFilas *listaControladora, li
     int result;
     int e;
     while(1){
+        printf("\n");
         printf("------------------LIVRO----------------\n");
         printf("1.Emprestar Livro\n");
         printf("2.Devolver Livro\n");
@@ -140,6 +141,7 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
     int e;
     usuario *localUser;
     while(1){
+        printf("\n");
         printf("--------------USUARIO----------------\n");
         printf("1.Exibir informacoes de um usuario\n");
         printf("2.Exibir livro(s) emprestado(s) de um usuario\n");
@@ -193,6 +195,7 @@ int escolhaUsuario(lista_usuario *listaUsuarios){
                     printf("Erro: Valor invalido tente novamente!\n");
                     while (getchar() != '\n');
                 }
+                imprimirLivrosEmprestados(listaUsuarios, userIn); 
                 break;
 
             case 3:
@@ -251,6 +254,7 @@ int escolhaAdmnistrador(lista_usuario *listaUsuarios, lista_livro *listaLivros){
 
     printf("Logado com sucesso!\n");
     while(1){
+        printf("\n");
         printf("--------------ADMNISTRATIVO----------------\n");
         printf("1.Adicionar um usuario\n");
         printf("2.Adicionar um livro\n");

@@ -45,6 +45,7 @@ int main(){
     int escolha;
     int result;
     while(1) {
+        printf("\n");
         printf("--------------BIBLIOTECA----------------\n");
         printf("Escolha uma das opcoes: \n");
         printf("1.Livros\n");
