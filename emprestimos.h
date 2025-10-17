@@ -53,7 +53,9 @@ int fazerEmprestimo(lista_usuario *listaUsuario, listaFilas *lista, lista_livro 
 
 //se livro está emprestado chama colocarFila
 
-int devolverLivro(listaFilas *lista, lista_livro *listaLivro ,int codLivro, int matricula);
+int devolverLivro(listaFilas *lista, lista_livro *listaLivro, lista_usuario *listaUsuarios, int codLivro, int matricula);
+
+int removerLivroDoUsuario(usuario *user, livro *livro);
 
 int imprimirFilaEspera(listaFilas *lista, lista_livro *listaLivro, int codLivro);
 

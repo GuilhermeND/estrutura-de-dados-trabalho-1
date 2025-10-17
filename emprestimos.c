@@ -117,6 +117,7 @@ int colocaFila(int matricula, livro *livrop, listaFilas *lista){
     }
 }
 
+// Função para definir os livros emprestados e suas datas de devolução para o usuário
 int definirLivros(livro *livrop, usuario *usuariop) {
     data dataDevolucao = calcularDataDevolucao();
     // Verifica se o usuário pode pegar mais um livro
@@ -163,7 +164,7 @@ int fazerEmprestimo(lista_usuario *listaUsuarios, listaFilas *listaControl, list
         // REGISTRO BEM SUCEDIDO (a função definirLivros já registrou a data e o ponteiro)
         localNo->status = 0; // Marca o livro como emprestado
         data dataDevolucao = calcularDataDevolucao(); // Calcula novamente (apenas para a impressão)
-        printf("Livro '%s' emprestado para %s. Devolução: %s\n", localNo->titulo, localUsuario->nome, dataDevolucao.dataHoje);
+        printf("Livro '%s' emprestado para %s. Devolucao: %s\n", localNo->titulo, localUsuario->nome, dataDevolucao.dataHoje);
         return 1; // Sucesso no emprestimo
     } else {
         // Chama a lógica de fila (colocaFila)
@@ -181,33 +182,82 @@ int fazerEmprestimo(lista_usuario *listaUsuarios, listaFilas *listaControl, list
 }
 
 // Função de devolucao de livro, lida com o caso de precisar deletar a lista se so existe uma pessoa esperando e caso ha mais de uma pessoa na fila.
-int devolverLivro(listaFilas *lista, lista_livro *listaLivro ,int isbnLivro, int matricula) {
-    int i;
-    fila *filaEndereco;
-    filaUsuarios* fila;
-    livro *localNo = listaLivro->cabeca;
-    fila_no *temp;
-    for(i=0; i<listaLivro->tamanho; i++){
-        if(localNo->cod == isbnLivro){
-            filaEndereco = veriFila(lista, localNo);
-            if(filaEndereco){
-                fila = filaEndereco->fila;
-                if(fila->cabeca->matricula != matricula) return 0;
-            if(fila->cabeca->proximo!=NULL){
-                temp = fila->cabeca;
-                fila->cabeca = temp->proximo;
-                free(temp);
-                return fila->tamanho;
-            }else{
-                free(fila->cabeca);
-                free(fila);
-                localNo->status = 1;
-                return -1;
-            }
+int devolverLivro(listaFilas *listaFilasControl, lista_livro *listaLivro, lista_usuario *listaUsuarios, int codLivro, int matricula) {
+    usuario *localUsuario = buscarUsuario(listaUsuarios, matricula);
+    livro *localNo = buscarLivroPorCodigo(listaLivro, codLivro);
+
+    if (localUsuario == NULL) {
+        printf("Erro: Usuario com matricula %d nao encontrado.\n", matricula);
+        return 0;
+    }
+    if (localNo == NULL) {
+        printf("Erro: Livro com codigo %d nao encontrado no acervo.\n", codLivro);
+        return 0;
+    }
+    
+    // Tenta Remover o Livro do Usuário
+    if (removerLivroDoUsuario(localUsuario, localNo)) { 
+        // Reverte o Status do Livro e Mensagem de Sucesso
+        atualizarStatus(localNo); // Muda status para Disponível (1)
+        printf("Sucesso: Livro '%s' devolvido por %s.\n", localNo->titulo, localUsuario->nome);
+
+        // Checa e Processa a Fila de Espera
+        fila *filaEndereco = veriFila(listaFilasControl, localNo);
+
+        if (filaEndereco != NULL) { // Se a fila existe
+            // Remove o primeiro usuário da fila (FIFO)
+            int matricula_proximo = removerFila(filaEndereco->fila);
+            usuario *proximo_user = buscarUsuario(listaUsuarios, matricula_proximo); 
+            
+            if (proximo_user != NULL) {   
+                atualizarStatus(localNo); // Marca o livro como emprestado novamente
+                int registro_sucesso = definirLivros(localNo, proximo_user);
+
+                if (registro_sucesso) {
+                    data dataDevolucao = calcularDataDevolucao(); 
+                        
+                    printf("Aviso: Emprestimo automatico concluido para %s (Matricula: %d).\n", proximo_user->nome, matricula_proximo);
+                    printf("Nova Devolucao: %s\n", dataDevolucao.dataHoje); 
+                } else {
+                    // Caso de falha no registro (ex: usuário na fila atingiu o limite de livros por algum motivo)
+                    printf("Aviso: Usuario %d da fila atingiu o limite de livros! O livro permanece emprestado (Status=0).\n", matricula_proximo);
+                    // NOTA: Se isso acontecer, o livro permanece emprestado, mas não está registrado para o usuário.
+                    // O sistema deve ser projetado para que o próximo usuário seja retirado manualmente da fila de empréstimos (lógica avançada).
+                }
+            // 6. Finaliza a transação e retorna o novo tamanho da fila
+                if (FilaEstaVazia(filaEndereco->fila)) {
+                    // Aqui você chamaria removerListaFilas se a fila esvaziou (lógica a ser implementada)
+                    return 1; // Sucesso na devolução e fila zerada                
+                }
+                return filaEndereco->fila->tamanho; // Retorna o novo tamanho da fila
             }
         }
+
+        // 7. Se não havia fila ou a fila estava vazia
+        return 1; // Código 1 para sucesso na devolução (sem fila)
     }
+
+    // 8. Falha: Livro não estava emprestado para este usuário
+    // Essa mensagem só é exibida se removerLivroDoUsuario retornar 0.
+    printf ("Erro: Livro '%s' nao estava registrado como emprestado para %s.\n", localNo->titulo, localUsuario->nome);
     return 0;
+}
+
+// Função para remover o livro emprestado do usuário
+int removerLivroDoUsuario(usuario *user, livro *livro) {
+    if (user == NULL || livro == NULL) return 0;
+    
+    // Procura o ponteiro do livro no array do usuário (slot 0 e 1)
+    for (int i = 0; i < 2; i++) {
+        // Verifica se o ponteiro do livro é o mesmo E se o slot está ocupado
+        if (user->livros_emprestados[i] == livro) {
+            // Remove o registro
+            user->livros_emprestados[i] = NULL;
+            user->data_devolucao[i][0] = '\0'; // Limpa a string de data
+            return 1; // Sucesso na remoção
+        }
+    }
+    return 0; // Livro não estava emprestado para este usuário
 }
 
 // Função para imprimir a fila de espera de um livro
@@ -229,7 +279,7 @@ int imprimirFilaEspera(listaFilas *lista, lista_livro *listaLivro, int codLivro)
     }
 
     // Imprime a Fila
-    printf("Fila de espera para '%s' (Cod: %d):\n", book->titulo, codLivro);
+    printf("Fila de espera para '%s' (Cod: %d):", book->titulo, codLivro);
     imprimirFila(fila_node->fila);
     return 1;
 }

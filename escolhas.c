@@ -6,7 +6,7 @@
 #include "emprestimos.h"
 #include "usuarios.h"
 
-int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lista_livro *listaLivros){
+int escolhaLivro(lista_usuario *listaUsuarios, listaFilas *listaControladora, lista_livro *listaLivros){
     int escolha_livro;
     char userIn[100];
     int userInCod;
@@ -42,13 +42,13 @@ int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lis
                 printf("Insira o codigo da matricula de quem vai emprestar: ");
                 scanf("%d", &userInMat);
                 while (getchar() != '\n');
-                e = fazerEmprestimo(listaUsuario, listaControladora, listaLivros, userInCod, userInMat);
+                e = fazerEmprestimo(listaUsuarios, listaControladora, listaLivros, userInCod, userInMat);
                 if (e == 1) { 
                     // Empréstimo bem-sucedido (retorno 1). A mensagem detalhada já foi impressa.
                     printf("Sucesso na operacao de emprestimo!\n");
                 } else if (e < 0) { 
                     // Sucesso na Fila (retorno negativo). A mensagem detalhada já foi impressa.
-                    printf ("Usuario adicionado na fila de espera.\n");
+                    printf ("Usuario adicionado na fila de espera!\n");
                 } else { // Retorno 0: Falha (Limite, não encontrado, ou falha de alocação)
                     // A mensagem de erro detalhada já foi impressa em fazerEmprestimo (Ex: Limite atingido)
                     printf("Operacao de emprestimo/fila nao concluida.\n");
@@ -65,14 +65,14 @@ int escolhaLivro(lista_usuario *listaUsuario, listaFilas *listaControladora, lis
                 printf("Insira o codigo da matricula de quem vai devolver: ");
                 scanf("%d", &userInMat);
                 while (getchar() != '\n');
-                e = devolverLivro(listaControladora, listaLivros, userInCod, userInMat);
+                e = devolverLivro(listaControladora, listaLivros, listaUsuarios, userInCod, userInMat);
                 if(e == 0){
-                    printf("Erro ao emprestar!\n");
+                    printf("Erro ao devolver\n");
                     continue;
                 }else if(e == -1){
-                    printf("Sucesso ao devolver e o livro está sem fila no momento!\n");
+                    printf("Sucesso ao devolver e o livro esta sem fila no momento!\n");
                 }else{
-                    printf("Sucesso ao devolver e o tamanho da fila daquele livro é %d\n", e);
+                    printf("Sucesso ao devolver. Tamanho restante da fila desse livro: %d\n", e);
                 }
                 break;
             case 3:

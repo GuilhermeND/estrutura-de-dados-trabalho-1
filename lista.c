@@ -89,9 +89,8 @@ void imprimirFila(filaUsuarios *lista) {
     }
 
     fila_no *atual = lista->cabeca; // Ponteiro para percorrer a lista
-    printf("Fila: ");
     do {
-        printf("%d, ", atual->matricula);
+        printf(" %d, ", atual->matricula);
         atual = atual->proximo;
     } while (atual != lista->cabeca);
     printf("\n");
